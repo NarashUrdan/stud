@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 
 	if (argc > 1)
 	{
-		fd = opendir(argv[1]);
+		fd = opendir(".");
 		while ((bite = readdir(fd)) != NULL)
 			printf("%s\n", bite->d_name);
 	}
