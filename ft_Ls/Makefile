@@ -6,7 +6,7 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/01/14 22:40:11 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/01/16 22:27:42 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,7 @@ LIBFT		=	$(PTH_LIBFT)/libft.a
 LNK_LIBFT	=	-L. $(LIBFT)
 
 PTH_SRC		=	srcs
-SRC			=	test2.c\
-				ft_path.c\
+SRC			=	ft_open.c\
 				main.c\
 
 SRCS		=	$(addprefix $(PTH_SRC), $(SRC))

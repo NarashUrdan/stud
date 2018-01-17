@@ -1,33 +1,55 @@
-#include "ft_ls.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/01/16 00:54:12 by jukuntzm          #+#    #+#             */
+/*   Updated: 2018/01/17 05:26:23 by jukuntzm         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_att(char **argv, char *ar)
+#include "../includes/ft_ls.h"
+
+char	*ft_att(char **argv, char *ar)
 {
-	int	i;
-	int	j;
-	int	k;
+	char	*str;
+	int		i;
+	int		j;
+	int		k;
 
 	k = 0;
 	i = 1;
+	str = NULL;
 	while (argv[i])
 	{
-		if (argv[i][0] != '-')
-			return (1);
-		j = 1;	
-		while (argv[i][j] !='\0')
+		j = 0;
+		if (argv[i][j] == '-')
 		{
-			if (argv[i][j] == '-')
-				return (1);
-			ar[k++] = argv[i][j];
-			j++;
+			while (argv[i][j++]) 
+			{
+				if (argv[i][j] == '-')
+					return (NULL);
+				ar[k++] = argv[i][j];
+			}
+			k = 0;
+		}
+		else
+		{
+			if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(argv[i]) + 1))))
+				return (NULL);
+			while (argv[i][j] != '\0')
+				str[k++] = argv[i][j++];
 		}
 		i++;
 	}
-	while (k < 6)
-	{
-		ar[k] = '\0';
-		k++;
-	}
-	return (0);
+	if (str == NULL)
+	{	
+		str = ft_strnew(0);
+		str = (char *)ft_memset((void *)str, 46, 1);
+	}	
+	return (str);
 }
 
 int	check_error(char *ar)
@@ -44,26 +66,37 @@ int	check_error(char *ar)
 	return (0);
 }
 
+t_ar	ft_ar(char *str)
+{
+	t_ar	ar;
+
+	ar.a = ((strrchr(str, 97)) == NULL) ? 0 : 1;
+	ar.r = ((strrchr(str, 114)) == NULL) ? 0 : 1;
+	ar.re = ((strrchr(str, 82)) == NULL) ? 0 : 1;
+	ar.l = ((strrchr(str, 108)) == NULL) ? 0 : 1;
+	ar.t = ((strrchr(str, 116)) == NULL) ? 0 : 1;
+	return (ar);
+}
+
 int main(int argc, char **argv)
 {
 	char	ar[6];
 	int	i;
+	char *path;
+	(void)argc;
 
 	i = 0;
-	if (argc > 1)
+	if ((path = ft_att(argv, ar)) == NULL)
 	{
-		if (ft_att(argv, ar) == 1)
-		{
-			ft_putendl("error");
-			return (0);
-		}
-		if (check_error(ar) == 1)
-		{
-			ft_putendl("error");
-			return (0);
-		}
+		ft_putendl("error");
+		return (0);
 	}
-	if (ft_path(ar) == 1)
+	if (check_error(ar) == 1)
+	{
+		ft_putendl("error");
+		return (0);
+	}
+	if (ft_open(path, ft_ar(ar)) == 1)
 	{
 		ft_putendl("error");
 		return (0);
