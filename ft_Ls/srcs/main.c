@@ -6,15 +6,42 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 00:54:12 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/01/17 05:26:23 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/01/18 05:28:41 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-char	*ft_att(char **argv, char *ar)
+char	**ft_arg(int argc, char **argv, int *i)	
 {
-	char	*str;
+	char	**str;
+	int		l;
+	int		j;
+
+	l = 0;
+	if ((argc - *i) == 0)
+		return (NULL);
+	else
+		if (!(str = (char **)malloc(sizeof(char *) * (argc - *i + 1))))
+			return (NULL);
+	while (argv[*i])
+	{
+		j = -1;
+		if (!(str[l] = (char *)malloc(sizeof(char) * (ft_strlen(argv[*i]) + 1))))
+			return (NULL);
+		while (argv[*i][++j])
+			str[l][j] = argv[*i][j];
+		str[l][j] = '\0';
+		l++;
+		*i = *i + 1;
+	}
+	str[l] = NULL;
+	return (str);
+}
+
+char	**ft_att(int argc, char **argv, char *ar)
+{
+	char	**str;
 	int		i;
 	int		j;
 	int		k;
@@ -34,20 +61,16 @@ char	*ft_att(char **argv, char *ar)
 				ar[k++] = argv[i][j];
 			}
 			k = 0;
+			i++;
 		}
 		else
-		{
-			if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(argv[i]) + 1))))
-				return (NULL);
-			while (argv[i][j] != '\0')
-				str[k++] = argv[i][j++];
-		}
-		i++;
+			str = ft_arg(argc, argv, &i);
 	}
 	if (str == NULL)
 	{	
-		str = ft_strnew(0);
-		str = (char *)ft_memset((void *)str, 46, 1);
+		str = (char **)malloc(sizeof(char *) * 1);
+		str[0] = ft_strnew(0);
+		str[0] = (char *)ft_memset((void *)str, 46, 1);
 	}	
 	return (str);
 }
@@ -82,11 +105,11 @@ int main(int argc, char **argv)
 {
 	char	ar[6];
 	int	i;
-	char *path;
+	char **path;
 	(void)argc;
 
 	i = 0;
-	if ((path = ft_att(argv, ar)) == NULL)
+	if ((path = ft_att(argc, argv, ar)) == NULL)
 	{
 		ft_putendl("error");
 		return (0);
@@ -98,7 +121,7 @@ int main(int argc, char **argv)
 	}
 	if (ft_open(path, ft_ar(ar)) == 1)
 	{
-		ft_putendl("error");
+		ft_putendl("\n usage : lratR");
 		return (0);
 	}
 	return (0);
