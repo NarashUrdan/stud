@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 02:54:27 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/01/17 05:26:23 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/01/19 05:25:44 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,12 @@
 # include <time.h>
 # include "../libft/libft.h"
 # include <errno.h>  
-
+# include <stdio.h>
 typedef struct s_lst
 {
-	struct dirent	*dir;
+	int				dor;
+	char			*name;
 	struct stat		buf;
-	struct passwd	*uid;
-	struct group	*bite;
-	char			*merde;
-	struct t_lst	*next;
 }				t_lst;
 
 typedef struct s_ar
@@ -43,9 +40,5 @@ typedef struct s_ar
 	int	t;
 }				t_ar;
 
-int		ft_open(char *path, t_ar ar);
-int		ft_arl(char *path, t_lst files);
-int		ft_l(t_lst *lst, struct dirent *zob);
-int		ft_path(char *ar);
-
+void	ft_error(char *str, char arg);
 #endif

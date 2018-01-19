@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/27 21:06:05 by jukuntzm          #+#    #+#             */
-/*   Updated: 2017/12/27 22:42:26 by jukuntzm         ###   ########.fr       */
+/*   Created: 2018/01/19 05:04:49 by jukuntzm          #+#    #+#             */
+/*   Updated: 2018/01/19 05:20:19 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <dirent.h>
-#include <string.h>
+#include "../includes/ft_ls.h"
 
-int main(int argc, char **argv)
+void	ft_error(char *str, char arg)
 {
-	DIR	*fd;
-	struct dirent *bite;
-
-	if (argc > 1)
-	{
-		fd = opendir(".");
-		while ((bite = readdir(fd)) != NULL)
-			printf("%s\n", bite->d_name);
-	}
-	return (0);
+	ft_putstr(str);
+	write(1, &arg, 1);
+	ft_putendl("\nusage: ft_ls [-Ralrt] [file ...]");
+	break ;
 }
