@@ -6,7 +6,7 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/01/19 05:21:19 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/01/24 01:01:53 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,10 @@ LNK_LIBFT	=	-L. $(LIBFT)
 PTH_SRC		=	srcs
 				
 SRC			=	main.c\
+				ft_ar.c\
+				ft_write.c\
+				ft_path.c\
+				ft_print.c\
 				ft_error.c\
 
 SRCS		=	$(addprefix $(PTH_SRC), $(SRC))
