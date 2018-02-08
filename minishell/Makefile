@@ -6,7 +6,7 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/02/07 01:32:53 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/02/08 03:17:42 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ LNK_LIBFT	=	-L. $(LIBFT)
 PTH_SRC		=	srcs
 
 SRC			=	main.c\
+				echo.c\
+				tools.c\
 				get_next_line.c\
 
 SRCS		=	$(addprefix $(PTH_SRC), $(SRC))

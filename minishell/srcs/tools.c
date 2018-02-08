@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/06 05:06:28 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/08 03:58:59 by jukuntzm         ###   ########.fr       */
+/*   Created: 2018/02/08 00:05:44 by jukuntzm          #+#    #+#             */
+/*   Updated: 2018/02/08 01:52:21 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <unistd.h>
-# include "../libft/libft.h"
-# include "get_next_line.h"
+#include "../includes/minishell.h"
 
-void	ft_prompt(void);
+char	**ft_splitspaces(char *str)
+{
+	return (ft_strsplit(str, ' '));
+}
 
-int		ft_echo(char **tab);
+int		ft_nbarg(char **tab)
+{
+	int	i;
 
-char	**ft_splitspaces(char *str);
-int		ft_nbarg(char **tab);
-void	ft_error(char *str);
-#endif
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+void	ft_error(char *str)
+{
+	char **tab;
+
+	tab = ft_splitspaces(str);
+	ft_putstr_fd("minishell : command not found: ", 2);
+	ft_putendl_fd(tab[0], 2);
+}
