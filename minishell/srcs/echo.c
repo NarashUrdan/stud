@@ -5,68 +5,50 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/08 00:08:11 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/08 05:30:14 by jukuntzm         ###   ########.fr       */
+/*   Created: 2018/02/09 02:13:35 by jukuntzm          #+#    #+#             */
+/*   Updated: 2018/02/09 04:10:59 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_quote(char *str)
+char	*ft_echov(char *arg, char *str, char **env)
 {
+	int		i;
+	int		l;
 	char	*tmp;
-	
-	while (1)
+
+	i = 0;
+	l = ft_strlen(arg);
+	while (env[i] && ft_strncmp(arg, env[i], l) != 0)
+		i++;
+	if (i >= ft_nbarg(env))
+		str = ft_strjoinfree(str, " ", 1);
+	else
 	{
-		tmp = NULL;
-		write (1, "quote> ", 8);
-		get_next_line(0, &tmp);
-		str = ft_strjoinfree(str, "/", 1);
-		str = ft_strjoinfree(str, tmp, 1);
-		if (strchr(tmp, 39) != NULL)
-			break ;
-		free(tmp);
+		tmp = ft_strsub(env[i], (l + 1), (ft_strlen(env[i]) - l));
+		str = ft_strjoinfree(str, tmp, 3);
 	}
-	free(tmp);
 	return (str);
 }
 
-int	ft_echo(char **tab)
+int	ft_echo(char **tab, char **env)
 {
 	int		i;
 	char	*str;
-	char	*tmp;
 
 	i = 1;
 	str = ft_strnew(0);
 	while (tab[i])
 	{
-		str = ft_strjoinfree(str, tab[i], 1);
-		i++;
+		if (ft_strncmp(tab[i], "$", 1) == 0)
+			str = ft_echov((tab[i] + 1), str,  env);
+		else
+			str = ft_strjoinfree(str, tab[i], 1);
+		str = ft_strjoinfree(str, " ", 1);
+	   i++;	
 	}
-	if ((tmp = strchr(str, 39)) != NULL)
-	{
-		if (strchr((tmp + 1), 39) == NULL)
-			str = ft_quote(str);
-	}
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == 39)
-		{
-			while (str[++i] != 39)
-			{
-				if (str[i] == '/')
-				{
-					write(1, "\n", 1);
-					i++;
-				}
-				write(1, &str[i], 1);
-			}
-		}
-		write(1, &str[i], 1);
-		i++;
-	}
-	write(1, "\n", 1);
+	ft_putendl(str);
+	free(str);
 	return (0);
 }

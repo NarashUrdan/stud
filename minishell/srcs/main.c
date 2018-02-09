@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 05:01:29 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/08 05:30:11 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/09 07:21:15 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,51 @@ int	ft_input(char **tab, char **env)
 			ft_pwd(env);
 	}
 	else if (ft_strcmp(tab[0], "echo") == 0)
-		ft_echo(tab);
+		ft_echo(tab, env);
+	else if (ft_strcmp(tab[0], "cd") == 0)
+		ft_cd(tab, env);
+	else if (ft_strstr(tab[0], "env") != NULL)
+		ft_env(tab, env);
 	else
 		ft_error(tab[0]);
-//	else if (ft_strncmp(str, "echo", 4) == 0)
-//		ft_echo(line, en);
 	return (0);
 }
 
-void	ft_prompt(void)
+void	ft_prompt(char **env)
 {
-	write (1, "$> ", 3);
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (ft_strncmp(env[i], "PWD", 3) != 0)
+		i++;
+	if ((tmp = ft_strstr(env[i], "/minishell")) == NULL)
+		tmp = ft_strrchr(env[i], '/');
+	if (ft_strcmp(tmp, "/minishell") == 0)	
+		write (1, "$> ", 3);
+	else
+	{
+		ft_putstr(tmp + 1);
+		write(1, "> ", 2);
+	}
 }
+
+char **envir(char **env)
+{
+	char	**tab;
+	int		i;
+
+	i = 0;
+	tab = (char **)malloc(sizeof(char *) * (ft_nbarg(env) + 1));
+	tab[ft_nbarg(env)] = NULL;
+	while (env[i])
+	{
+		tab[i] = ft_strdup(env[i]);
+		i++;
+	}
+	return (tab);
+}
+
 int	main(void)
 {
 	int 		ret;
@@ -62,11 +95,12 @@ int	main(void)
 	extern char	**environ;
 	char		**tab;
 
+	environ = envir(environ);
 	line = NULL;
 	ft_print_words_tables(environ);
 	while (1)
 	{
-		ft_prompt();
+		ft_prompt(environ);
 		ret = get_next_line(0, &line);
 		if (ret == -1)
 		{

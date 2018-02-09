@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 00:05:44 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/08 01:52:21 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/09 07:12:41 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int		ft_nbarg(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
+}
+
+void	ft_error2(char *str)
+{
+	ft_putstr_fd("cd: no such file or directory: ", 2);
+	ft_putendl_fd(str, 2);
 }
 
 void	ft_error(char *str)
