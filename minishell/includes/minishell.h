@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 05:06:28 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/09 07:19:08 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/09 08:45:58 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_prompt(char **env);
 void	ft_env(char **tab, char **env);
 int		ft_echo(char **tab, char **env);
 int		ft_cd(char **tab, char **env);
-
+char	**merge(char **p1,char **p2, int s1, int s2);
 char	**ft_splitspaces(char *str);
 int		ft_nbarg(char **tab);
 void	ft_error(char *str);

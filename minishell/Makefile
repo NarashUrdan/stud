@@ -6,7 +6,7 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/02/09 07:18:31 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/02/09 08:03:15 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ PTH_SRC		=	srcs
 
 SRC			=	main.c\
 				echo.c\
+				ft_sort.c\
 				ft_env.c\
 				ft_cd.c\
 				tools.c\
