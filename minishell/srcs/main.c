@@ -59,8 +59,13 @@ void	ft_prompt(char **env)
 	char	*tmp;
 
 	i = 0;
-	while (ft_strncmp(env[i], "PWD", 3) != 0)
+	while (env[i] && ft_strncmp(env[i], "PWD", 3) != 0)
 		i++;
+	if (i >= ft_nbarg(env))
+	{
+		write(1, "$> ", 3);
+		return ;
+	}
 	if ((tmp = ft_strstr(env[i], "/minishell")) == NULL)
 		tmp = ft_strrchr(env[i], '/');
 	if (ft_strcmp(tmp, "/minishell") == 0)	
@@ -97,9 +102,9 @@ int	main(void)
 
 	environ = envir(environ);
 	line = NULL;
-	ft_print_words_tables(environ);
 	while (1)
 	{
+	ft_print_words_tables(environ);
 		ft_prompt(environ);
 		ret = get_next_line(0, &line);
 		if (ret == -1)

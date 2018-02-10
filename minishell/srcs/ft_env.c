@@ -21,14 +21,30 @@ char	*ft_join(char **tab)
 	return (str);
 }
 
+char	**ft_arraycpy(char **tab, int size)
+{
+	char	**tmp;
+	int	i;
+
+	i = 0;
+	tmp = (char **)malloc(sizeof(char *) * (size + 1));
+	while (tab[i])
+	{
+		tmp[i] = ft_strdup(tab[i]);
+		i++;
+	}
+	while (i <= size)
+		tmp[i++] = NULL;
+	return (tmp);
+}
+
 void	ft_setenv(char **tab, char **env)
 {
-	int		i;
-	int		j;
+	int	i;
 	char	**tmp;
 
 	i = 0;
-	j = 0;
+
 	if (ft_atoi(tab[3]) <= 0)
 		return ;
 	while (env[i])
@@ -41,22 +57,45 @@ void	ft_setenv(char **tab, char **env)
 		}
 		i++;
 	}
-	tmp = (char **)malloc(sizeof(char *) * 2);
-	tmp[0] = ft_join(tab);
-	tmp[1] = NULL;
-	env = merge(env, tmp, ft_nbarg(env), 1);
-	ft_putnbr(ft_nbarg(env));
-	ft_print_words_tables(env);
+	tmp = (char **)malloc(sizeof(char *) * (ft_nbarg(env) + 2));
+	i = 0;	
+	while (env[i])
+	{
+		tmp[i] = ft_strdup(env[i]);
+		i++;
+	}
+	tmp[i] = ft_join(tab);
+	tmp[i + 1] = NULL;
+	ft_freedoublearray(env);
+	i = 0;
+//	ft_print_words_tables(tmp);
+	write(1, "\n", 1);
+	env = (char **)malloc(sizeof(char *) * (ft_nbarg(tmp) + 1));
+	while (tmp[i])
+	{
+		env[i] = ft_strdup(tmp[i]);
+		i++;
+	}
+	env[i] = NULL;
+	ft_freedoublearray(tmp);
+/*	tmp = ft_arraycpy(env, (ft_nbarg(env) + 1));
+	tmp[ft_nbarg(env)] = ft_join(tab);
+	tmp[ft_nbarg(env) + 1] = NULL;
+	ft_freedoublearray(env);
+	env = ft_arraycpy(tmp, ft_nbarg(tmp));
+	ft_freedoublearray(tmp);
+	ft_putnbr(ft_nbarg(tmp));
+	ft_putnbr(ft_nbarg(env));*/
 }
 
 void	ft_unsetenv(char **tab, char **env)
 {
 	char	**tmp;
-	int		j;
-	int		i;
+	int	i;
+	int	j;
 
-	i = 0;
 	j = 0;
+	i = 0;
 	if (ft_nbarg(tab) > 2)
 	{
 		ft_putendl_fd("unsetenv : too many arguments", 2);

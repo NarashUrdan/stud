@@ -49,6 +49,11 @@ void	ft_cd2(char *pwd, char *opwd, char **tab, char **env)
 	int		i;
 	char	*tmpp;
 
+	if (pwd == NULL)
+	{
+		ft_error2(tab[1]);
+		return ;
+	}
 	tmpp = ft_strdup(pwd);
 	i = 0;
 	if (tab[1][ft_strlen(tab[1]) - 1] != '/')
@@ -80,6 +85,8 @@ int	ft_cd(char **tab, char **env)
 	char	*opwd;
 
 	i = 1;
+	pwd = NULL;
+	opwd = NULL;
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PWD", 3) == 0)
@@ -90,6 +97,8 @@ int	ft_cd(char **tab, char **env)
 	}
 	if (ft_strcmp(tab[1], "..") == 0)
 	{
+		if (opwd == NULL || pwd == NULL)
+			return (0);
 		i = ft_strlen(pwd) - ft_strlen(ft_strrchr(pwd, '/'));
 			opwd = ft_strsub(pwd, 0 , i);
 		ft_chpath(opwd, env, pwd, tab[1]);
