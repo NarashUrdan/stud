@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 05:01:29 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/09 09:01:52 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/11 09:55:09 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ int	ft_pwd(char **env)
 	return (0);
 }
 
-int	ft_input(char **tab, char **env)
+char	**ft_input(char **tab, char **env)
 {
-
+	if (tab[0] == NULL)
+		return (env);
 	if (ft_strcmp(tab[0], "pwd") == 0)
 	{
 		if (ft_nbarg(tab) != 1)
@@ -47,34 +48,15 @@ int	ft_input(char **tab, char **env)
 	else if (ft_strcmp(tab[0], "cd") == 0)
 		ft_cd(tab, env);
 	else if (ft_strstr(tab[0], "env") != NULL)
-		ft_env(tab, env);
+		env = ft_env(tab, env);
 	else
-		ft_error(tab[0]);
-	return (0);
+		ft_other(tab, env);
+	return (env);
 }
 
-void	ft_prompt(char **env)
+void	ft_prompt(void)
 {
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (env[i] && ft_strncmp(env[i], "PWD", 3) != 0)
-		i++;
-	if (i >= ft_nbarg(env))
-	{
 		write(1, "$> ", 3);
-		return ;
-	}
-	if ((tmp = ft_strstr(env[i], "/minishell")) == NULL)
-		tmp = ft_strrchr(env[i], '/');
-	if (ft_strcmp(tmp, "/minishell") == 0)	
-		write (1, "$> ", 3);
-	else
-	{
-		ft_putstr(tmp + 1);
-		write(1, "> ", 2);
-	}
 }
 
 char **envir(char **env)
@@ -104,8 +86,7 @@ int	main(void)
 	line = NULL;
 	while (1)
 	{
-	ft_print_words_tables(environ);
-		ft_prompt(environ);
+		ft_prompt();
 		ret = get_next_line(0, &line);
 		if (ret == -1)
 		{
@@ -114,11 +95,14 @@ int	main(void)
 		}
 		tab = ft_strsplit(line, ' ');
 		free(line);
-		if (ft_strcmp(tab[0], "exit") == 0)
+		if (tab[0] && ft_strcmp(tab[0], "exit") == 0)
 			break ;
 		else
-			ft_input(tab, environ);
+			environ = ft_input(tab, environ);
+		if (tab[0] != NULL)
+			ft_freedoublearray(tab);
 	}
-	ft_freedoublearray(tab);
+		ft_freedoublearray(tab);
+	ft_freedoublearray(environ);
 	return (0);
 }

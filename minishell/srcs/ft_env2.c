@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   ft_env2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/08 00:05:44 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/11 07:48:58 by jukuntzm         ###   ########.fr       */
+/*   Created: 2018/02/10 22:11:19 by jukuntzm          #+#    #+#             */
+/*   Updated: 2018/02/11 07:48:46 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		ft_nbarg(char **tab)
+char	**ft_envi(char **tab, char **env)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
-
-void	ft_error2(char *str)
-{
-	ft_putstr_fd("cd: no such file or directory: ", 2);
-	ft_putendl_fd(str, 2);
-}
-
-void	ft_error(char *str)
-{
-	char **tab;
-
-	tab = ft_strsplit(str, ' ');
-	ft_putstr_fd("minishell : command not found: ", 2);
-	ft_putendl_fd(tab[0], 2);
-	ft_freedoublearray(tab);
+	if (!tab[1] && env != NULL)
+	{
+		ft_print_words_tables(env);
+		return (env);
+	}
+	if (tab[1] && ft_strcmp(tab[1], "-i") == 0)
+	{
+		if (!tab[2])
+		{
+			ft_freedoublearray(env);
+			env = NULL;
+		}
+	}
+	if (tab[1] && env != NULL &&
+		(ft_strcmp(tab[1], "-u") == 0 || ft_strcmp(tab[1], "--unset") == 0))
+		ft_unsetenv((tab + 1), env, "env");
+	return (env);
 }

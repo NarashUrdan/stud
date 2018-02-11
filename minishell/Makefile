@@ -6,7 +6,7 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/02/09 08:03:15 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/02/11 07:32:30 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,11 @@ LNK_LIBFT	=	-L. $(LIBFT)
 PTH_SRC		=	srcs
 
 SRC			=	main.c\
+				ft_other.c\
 				echo.c\
 				ft_sort.c\
 				ft_env.c\
+				ft_env2.c\
 				ft_cd.c\
 				tools.c\
 				get_next_line.c\

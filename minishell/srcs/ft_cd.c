@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 02:38:05 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/09 07:04:25 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/11 09:55:05 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,19 @@ void	ft_chpath(char *ret, char **env, char *opath, char *tab)
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PWD", 3) == 0)
+		{
+			free(env[i]);
 			env[i] = ft_strdup(ret);
-		if (ft_strncmp(env[i], "OLDPWD", 4) == 0)
+		}
+		if (ft_strncmp(env[i], "OLDPWD", 6) == 0)
+		{
+			free(env[i]);
 			env[i] = ft_strdup(opath);
+		}
 		i++;
 	}
-	free(opath);
 	free(ret);
+	free(opath);
 }
 
 void	ft_cd2(char *pwd, char *opwd, char **tab, char **env)
@@ -58,22 +64,54 @@ void	ft_cd2(char *pwd, char *opwd, char **tab, char **env)
 	i = 0;
 	if (tab[1][ft_strlen(tab[1]) - 1] != '/')
 		tab[1] = ft_strjoinfree(tab[1], "/", 1);
-	if (chdir(tab[1]) == 0)
-		ft_chpath(tab[1], env, pwd, tab[1]);
+	pwd = ft_strjoinfree(pwd, "/", 1);
+	pwd = ft_strjoinfree(pwd, tab[1], 1);
+	if (chdir(pwd) == 0)
+		ft_chpath(pwd, env, tmpp, tab[1]);
 	else
 	{
-		pwd = ft_strjoinfree(pwd, "/", 1);
-		pwd = ft_strjoinfree(pwd, tab[1], 1);
-		if (chdir(pwd) == 0)
-			ft_chpath(pwd, env, tmpp, tab[1]);
+		opwd = ft_strjoinfree(opwd, "/", 1);
+		opwd = ft_strjoinfree(opwd, tab[1], 1);
+		if (chdir(opwd) == 0)
+			ft_chpath(opwd, env, tmpp, tab[1]);
 		else
-		{
-			opwd = ft_strjoinfree(opwd, "/", 1);
-			opwd = ft_strjoinfree(opwd, tab[i], 1);
-			if (chdir(opwd) == 0)
-				ft_chpath(opwd, env, tmpp, tab[1]);
-			else
 			ft_error2(tab[1]);
+	}
+}
+
+void	ft_home(char **env, char *pwd)
+{
+	int		i;
+	char	*home;
+
+	i = 0;
+	home = NULL;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "HOME=", 5) == 0)
+			home = ft_strsub(env[i], 5,  (ft_strlen(env[i]) - 5));
+		i++;
+	}
+	if (!home)
+		ft_error("cd");
+	else
+	{
+		i = 0;
+		home = ft_strjoinfree("PWD=", home, 2);
+		pwd = ft_strjoinfree("OLDPWD=", pwd, 2);
+		while (env[i])
+		{
+			if (ft_strncmp(env[i], "PWD=", 4) == 0)
+			{
+				free(env[i]);
+				env[i] = ft_strdup(home);
+			}
+			if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
+			{
+				free(env[i]);
+				env[i] = ft_strdup(pwd);
+			}
+			i++;
 		}
 	}
 }
@@ -91,16 +129,18 @@ int	ft_cd(char **tab, char **env)
 	{
 		if (ft_strncmp(env[i], "PWD", 3) == 0)
 			pwd = ft_strsub(env[i], 4, ft_strlen(env[i]));
-		if (ft_strncmp(env[i], "OLDPWD", 6) == 0)
-			opwd = ft_strsub(env[i], 7, ft_strlen(env[i]));
 		i++;
 	}
-	if (ft_strcmp(tab[1], "..") == 0)
+	if (pwd == NULL)
+		ft_error2(tab[1]);
+	else if (!tab[1])
+		ft_home(env, pwd);
+	else if (ft_strncmp(tab[1], "..", 2) == 0)
 	{
-		if (opwd == NULL || pwd == NULL)
-			return (0);
 		i = ft_strlen(pwd) - ft_strlen(ft_strrchr(pwd, '/'));
-			opwd = ft_strsub(pwd, 0 , i);
+		opwd = ft_strsub(pwd, 0 , i);
+		if (ft_strcmp(tab[1], "..") != 0)
+			opwd = ft_strjoinfree(opwd, (tab[1] + 2), 1);
 		ft_chpath(opwd, env, pwd, tab[1]);
 	}
 	else

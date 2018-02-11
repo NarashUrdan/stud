@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 07:04:32 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/09 09:01:50 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/11 08:09:44 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**ft_arraycpy(char **tab, int size)
 	return (tmp);
 }
 
-void	ft_setenv(char **tab, char **env)
+char	**ft_setenv(char **tab, char **env)
 {
 	int	i;
 	char	**tmp;
@@ -46,14 +46,14 @@ void	ft_setenv(char **tab, char **env)
 	i = 0;
 
 	if (ft_atoi(tab[3]) <= 0)
-		return ;
+		return (env);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], tab[1], ft_strlen(tab[1])) == 0)
 		{
 			free(env[i]);
 			env[i] = ft_join(tab);
-			return ;
+			return (env);
 		}
 		i++;
 	}
@@ -68,27 +68,10 @@ void	ft_setenv(char **tab, char **env)
 	tmp[i + 1] = NULL;
 	ft_freedoublearray(env);
 	i = 0;
-//	ft_print_words_tables(tmp);
-	write(1, "\n", 1);
-	env = (char **)malloc(sizeof(char *) * (ft_nbarg(tmp) + 1));
-	while (tmp[i])
-	{
-		env[i] = ft_strdup(tmp[i]);
-		i++;
-	}
-	env[i] = NULL;
-	ft_freedoublearray(tmp);
-/*	tmp = ft_arraycpy(env, (ft_nbarg(env) + 1));
-	tmp[ft_nbarg(env)] = ft_join(tab);
-	tmp[ft_nbarg(env) + 1] = NULL;
-	ft_freedoublearray(env);
-	env = ft_arraycpy(tmp, ft_nbarg(tmp));
-	ft_freedoublearray(tmp);
-	ft_putnbr(ft_nbarg(tmp));
-	ft_putnbr(ft_nbarg(env));*/
+	return (tmp);
 }
 
-void	ft_unsetenv(char **tab, char **env)
+void	ft_unsetenv(char **tab, char **env, char *str)
 {
 	char	**tmp;
 	int	i;
@@ -98,7 +81,8 @@ void	ft_unsetenv(char **tab, char **env)
 	i = 0;
 	if (ft_nbarg(tab) > 2)
 	{
-		ft_putendl_fd("unsetenv : too many arguments", 2);
+		ft_putstr_fd(str, 2);
+		ft_putendl_fd(" : too many arguments", 2);
 		return ;
 	}
 	tmp = (char **)malloc(sizeof(char *) * (ft_nbarg(env)));
@@ -108,6 +92,7 @@ void	ft_unsetenv(char **tab, char **env)
 		if (ft_strncmp(tab[1], env[i], ft_strlen(tab[1])) == 0)
 			i++;
 		tmp[j] = ft_strdup(env[i]);
+		free(env[i]);
 		i++;
 		j++;
 	}
@@ -122,12 +107,13 @@ void	ft_unsetenv(char **tab, char **env)
 	ft_freedoublearray(tmp);
 }
 
-void	ft_env(char **tab, char **env)
+char	**ft_env(char **tab, char **env)
 {
 	if (ft_strcmp(tab[0], "setenv") == 0)
-		ft_setenv(tab, env);
+		env = ft_setenv(tab, env);
 	if (ft_strcmp(tab[0], "unsetenv") == 0)
-		ft_unsetenv(tab, env);
-/*	if (ft_strcmp(tab[0], "env") == 0)
-		ft_en(tab, env);
-*/}
+		ft_unsetenv(tab, env, "unsetenv");
+	if (ft_strcmp(tab[0], "env") == 0)
+		env = ft_envi(tab, env);
+	return (env);
+}
