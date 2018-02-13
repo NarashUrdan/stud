@@ -6,53 +6,36 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 00:05:44 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/12 07:28:14 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/13 08:15:09 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*path(char *ret, char *tab, char *opath)
+void	ft_changepath(char *path, char **env)
 {
-	char *tmp;
-
-	tmp = ft_strsub(ret, 0, (ft_strlen(ret) - 1));
-	free(ret);
-	ret = ft_strdup(tmp);
-	free(tmp);
-	if (ft_strcmp(ret, tab) == 0)
-	{
-		ret = ft_strjoinfree("/", ret, 2);
-		ret = ft_strjoinfree(opath, ret, 2);
-	}
-	return (ret);
-}
-
-void	ft_chpath(char *ret, char **env, char *opath, char *tab)
-{
-	int i;
+	char	*pwd;
+	int		i;
 
 	i = -1;
-	if (ret[ft_strlen(ret) - 1] == '/' || ft_strcmp(ret, tab) == 0)
-		ret = path(ret, tab, opath);
-	chdir(ret);
-	ret = ft_strjoinfree("PWD=", ret, 2);
-	opath = ft_strjoinfree("OLDPWD=", opath, 2);
+	pwd = getcwd(NULL, 0);
+	path = ft_strjoinfree("OLDPWD=", path, 2);
+	pwd = ft_strjoinfree("PWD=", pwd, 2);
 	while (env[++i])
 	{
-		if (ft_strncmp(env[i], "PWD", 3) == 0)
+		if (ft_strncmp(env[i], "PWD=", 4) == 0)
 		{
 			free(env[i]);
-			env[i] = ft_strdup(ret);
+			env[i] = ft_strdup(pwd);
 		}
-		if (ft_strncmp(env[i], "OLDPWD", 6) == 0)
+		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
 		{
 			free(env[i]);
-			env[i] = ft_strdup(opath);
+			env[i] = ft_strdup(path);
 		}
 	}
-	free(ret);
-	free(opath);
+	free(pwd);
+	free(path);
 }
 
 int		ft_nbarg(char **tab)
@@ -63,6 +46,13 @@ int		ft_nbarg(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
+}
+
+void	ft_errorcd(char *str)
+{
+	ft_putstr_fd("cd: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd(" not set", 2);
 }
 
 void	ft_error2(char *str)

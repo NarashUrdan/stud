@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 07:04:32 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/12 09:19:20 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/13 08:12:23 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ char	**ft_setenv(char **tab, char **env)
 	i = -1;
 	while (env[++i])
 		tmp[i] = ft_strdup(env[i]);
-	tmp[i] = ft_join(tab);
-	tmp[i + 1] = NULL;
+	tmp[i++] = ft_join(tab);
+	tmp[i++] = NULL;
 	ft_freedoublearray(env);
 	return (tmp);
 }
@@ -65,6 +65,7 @@ void	ft_rep(char **tmp, char **env)
 		env[i] = ft_strdup(tmp[i]);
 		i++;
 	}
+	free(env[i]);
 	env[i] = NULL;
 }
 
@@ -85,9 +86,7 @@ void	ft_unsetenv(char **tab, char **env, char *str)
 	tmp = (char **)malloc(sizeof(char *) * (ft_nbarg(env) + 1));
 	while (env[++i] != NULL)
 	{
-		if (ft_strncmp(tab[1], env[i], ft_strlen(tab[1])) == 0)
-			i++;
-		else
+		if (ft_strncmp(tab[1], env[i], ft_strlen(tab[1])) != 0)
 		{
 			tmp[j] = ft_strdup(env[i]);
 			j++;
@@ -102,9 +101,11 @@ char	**ft_env(char **tab, char **env)
 {
 	if (ft_strcmp(tab[0], "setenv") == 0)
 		env = ft_setenv(tab, env);
-	if (ft_strcmp(tab[0], "unsetenv") == 0)
+	else if (ft_strcmp(tab[0], "unsetenv") == 0)
 		ft_unsetenv(tab, env, "unsetenv");
-	if (ft_strcmp(tab[0], "env") == 0)
+	else if (ft_strcmp(tab[0], "env") == 0)
 		env = ft_envi(tab, env);
+	else
+		ft_error(tab[0]);
 	return (env);
 }

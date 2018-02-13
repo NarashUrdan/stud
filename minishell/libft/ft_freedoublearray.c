@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/13 23:28:24 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/01 19:16:29 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/13 07:40:44 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void	ft_freedoublearray(char **array)
 	unsigned int	i;
 
 	i = 0;
-	while (array[i])
+	if (array == NULL)
+		return ;
+	while (array[i] != NULL)
 	{
 		ft_memdel((void **)&array[i]);
 		i++;

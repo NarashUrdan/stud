@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/10 02:19:40 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/13 07:47:05 by jukuntzm         ###   ########.fr       */
+/*   Created: 2018/02/13 01:49:14 by jukuntzm          #+#    #+#             */
+/*   Updated: 2018/02/13 01:52:56 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnew(size_t size)
+int		ft_isspace(char s)
 {
-	char	*str;
-	int		i;
-
-	i = (int)size;
-	if (!(str = (char *)malloc(sizeof(char) * size + 1)))
-		return (NULL);
-	while (i >= 0)
-	{
-		str[i] = '\0';
-		i--;
-	}
-	return (str);
+	if (s == '\t' || s == '\n' || s == '\v' ||
+		s == '\f' || s == '\r' || s == ' ')
+		return (1);
+	return (0);
 }

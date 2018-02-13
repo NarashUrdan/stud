@@ -6,13 +6,13 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/02/12 07:54:01 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/02/13 07:35:08 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
 
-FLAG	=	-Werror -Wextra -Wall -fsanitize=address -g3 
+FLAG	=	-Werror -Wextra -Wall -g3 #-fsanitize=address 
 
 PTH_LIBFT	=	libft
 LIBFT		=	$(PTH_LIBFT)/libft.a

@@ -6,7 +6,7 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/10 03:16:19 by jukuntzm          #+#    #+#              #
-#    Updated: 2017/12/12 04:22:30 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/02/13 01:51:47 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c\
 	  ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c ft_strtrim.c \
 	  ft_tolower.c ft_toupper.c ft_lstmap.c ft_lstiter.c ft_lstadd.c ft_lstdelone.c\
 	  ft_lstdel.c ft_lstnew.c ft_sqrt.c ft_swap.c ft_freedoublearray.c ft_abs.c\
-	  ft_range.c ft_print_words_tables.c ft_strjoinfree.c
+	  ft_range.c ft_print_words_tables.c ft_strjoinfree.c ft_splitwhitespaces.c\
+	  ft_isspace.c\
 
 CO = $(SRC:.c=.o)
 

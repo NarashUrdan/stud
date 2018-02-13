@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 04:05:10 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/12 09:19:24 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/13 08:11:58 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,37 @@ char	*ft_pouet(char **env)
 	return (path);
 }
 
-char	*ft_ch(char *str, char **multipath)
+char	*ft_ch(char *tmp, char *str, char **multipath)
 {
 	char *path;
 
+	if (tmp)
+		free(tmp);
 	path = ft_strdup(str);
 	if (multipath == NULL)
 	{
-		multipath = (char **)malloc(sizeof(char *) * 1);
+		multipath = (char **)malloc(sizeof(char *) * 2);
 		multipath[0] = ft_strnew(0);
+		multipath[1] = NULL;
 	}
 	if ((access(str, X_OK)) == 0)
 	{
-		if (multipath[0] != NULL)
-			free(multipath[0]);
+		free(multipath[0]);
 		multipath[0] = ft_strnew(0);
 		return (path);
 	}
 	free(path);
 	return (NULL);
+}
+
+char	**ft_reallocnull(void)
+{
+	char	**tmp;
+
+	tmp = (char **)malloc(sizeof(char *) * 2);
+	tmp[0] = ft_strnew(0);
+	tmp[1] = NULL;
+	return (tmp);
 }
 
 char	*ft_checkpath(char *str, char **env, int i)
@@ -52,9 +64,9 @@ char	*ft_checkpath(char *str, char **env, int i)
 	char	**multipath;
 
 	path = ft_pouet(env);
-	multipath = ft_strsplit(path, ':');
-	free(path);
-	path = ft_ch(str, multipath);
+	if ((multipath = ft_strsplit(path, ':')) == NULL)
+		multipath = ft_reallocnull();
+	path = ft_ch(path, str, multipath);
 	if (path == NULL)
 		path = ft_strjoinfree("/", str, 0);
 	while (multipath[++i] != NULL)
@@ -88,6 +100,7 @@ void	ft_other(char **tab, char **env)
 	i = 0;
 	if (cpid == -1)
 	{
+		free(path);
 		ft_putstr_fd("Error process", 2);
 		exit(EXIT_FAILURE);
 	}

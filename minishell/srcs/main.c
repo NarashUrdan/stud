@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 05:01:29 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/12 09:00:27 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/13 08:21:27 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,13 @@ char	**ft_input(char **tab, char **env)
 	i = 0;
 	if (tab[0] == NULL)
 		return (env);
-	if (ft_strcmp(tab[0], "pwd") == 0)
-	{
-		if (ft_nbarg(tab) != 1)
-			ft_putendl_fd("pwd : too many arguments", 2);
-		else
-			ft_pwd(env);
-	}
-	else if (ft_strstr(tab[0], "env") != NULL && (ft_strstr(tab[0], "/env") == NULL))
+	else if (ft_strstr(tab[0], "env") != NULL &&
+			(ft_strstr(tab[0], "/env") == NULL))
 	{
 		i = 1;
 		env = ft_env(tab, env);
 	}
-	 if (ft_strcmp(tab[0], "echo") == 0)
+	if (ft_strcmp(tab[0], "echo") == 0)
 		ft_echo(tab, env);
 	else if (ft_strcmp(tab[0], "cd") == 0)
 		ft_cd(tab, env);
@@ -89,7 +83,7 @@ char	**ft_lignes(void)
 		ft_putendl_fd("error", 2);
 		exit(EXIT_FAILURE);
 	}
-	tab = ft_strsplit(line, ' ');
+	tab = ft_splitwhitespaces(line);
 	free(line);
 	return (tab);
 }
@@ -108,8 +102,7 @@ int		main(void)
 			break ;
 		else
 			environ = ft_input(tab, environ);
-		if (tab[0] != NULL)
-			ft_freedoublearray(tab);
+		ft_freedoublearray(tab);
 	}
 	ft_freedoublearray(tab);
 	ft_freedoublearray(environ);
