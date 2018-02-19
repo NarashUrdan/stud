@@ -6,13 +6,13 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/02/17 03:48:31 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/02/19 02:18:04 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	ft_select
 
-FLAG	=	-Werror -Wextra -Wall -g3 #-fsanitize=address 
+FLAG	=	-Werror -Wextra -Wall -g3 -fsanitize=address 
 
 PTH_LIBFT	=	libft
 LIBFT		=	$(PTH_LIBFT)/libft.a

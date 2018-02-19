@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 21:18:49 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/17 05:23:17 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/19 08:32:44 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,13 @@ int	main(int argc, char **argv)
 	t_ar	*arg2 = NULL;
 	static struct termios	term;
 	char	*res;
+	
+	if (argc == 1)
+		return (0);
 	term = ft_get_env();
 	ft_term(term);
 	arg = lst_first(argv[1]);
 	i = 1;
-	(void)argc;
 	while (argv[++i])
 		lst_new(&arg, arg2, argv[i]);
 	while (1)
