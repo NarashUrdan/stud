@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 01:52:33 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/19 08:46:25 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/20 10:41:39 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,25 @@ static void	ft_left(t_ar **arg)
 	while (tmp->next && tmp->cursor == 0)
 		tmp = tmp->next;
 	tmp->cursor = 0;
-	if (tmp->prev)
+	if (tmp->prev && tmp->prev->ghost == 1)
 		tmp->prev->cursor = 1;
 	else
 	{
 		while (tmp->next)
 			tmp = tmp->next;
+		while (!tmp->ghost)
+		{
+			if (!tmp->prev)
+			{
+				while (tmp && tmp->prev->ghost == 0)
+					tmp = tmp->prev;
+			}
+			else
+			{
+				while (tmp && tmp->next->ghost == 0)
+					tmp = tmp->next;
+			}
+		}
 		tmp->cursor = 1;
 	}
 }
@@ -38,12 +51,25 @@ static void ft_right(t_ar **arg)
 	while (tmp->next && tmp->cursor == 0)
 		tmp = tmp->next;
 	tmp->cursor = 0;
-	if (tmp->next)
+	if (tmp->next && tmp->next->ghost == 1)
 		tmp->next->cursor = 1;
 	else
 	{
 		while (tmp->prev)
 			tmp = tmp->prev;
+		while (!tmp->ghost)
+		{
+			if (!tmp->prev)
+			{
+				while (tmp && tmp->next->ghost == 0)
+					tmp = tmp->next;
+			}
+			else
+			{
+				while (tmp && tmp->prev->ghost == 0)
+					tmp = tmp->prev;
+			}
+		}
 		tmp->cursor = 1;
 	}
 }
@@ -94,31 +120,18 @@ static void	ft_del(t_ar **arg)
 	{
 		if (tmp->cursor == 1)
 		{
-			if (!(tmp->next))
+			tmp->ghost = 0;
+			if (tmp->next)
+				tmp->next->cursor = 1;
+			else  if (tmp->prev)
+				tmp->prev->cursor = 1;
+			else
 			{
-				if (!tmp->prev)
-				{
-					tmp->name = NULL;
-					tmp = tmp->next;
-				}
-				else
-				{
-					tmp->name = NULL;
-					tmp->prev->next = NULL;
-					tmp->prev->cursor = 1;
-					tmp->select = 0;
-				}
-				break ;
+				exit (EXIT_SUCCESS);
 			}
-			tmp->select = tmp->next->select;
-			tmp->next->prev = tmp->prev;
-			tmp->name = tmp->next->name;		
-			tmp->next->cursor = 1;
-			tmp->next = tmp->next->next;
 			break ;
 		}
-		if (tmp->next)
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 }
 

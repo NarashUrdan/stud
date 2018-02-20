@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 21:18:49 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/19 08:32:44 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/20 09:57:24 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,13 @@ int	main(int argc, char **argv)
 		lst_new(&arg, arg2, argv[i]);
 	while (1)
 	{
+		ft_putstr_fd(tgetstr("vi", NULL), 0);
+		ft_putstr_fd(tgetstr("ti", NULL), 0);
+		ft_putstr_fd(tgetstr("cl", NULL), 0);
 		ft_print(arg);
 		arg = wait_input(arg);
 		if ((res = tgetstr("cl", NULL)) == NULL)
-	    return (-1);
+		    return (-1);
 		ft_putstr(res);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 21:17:33 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/19 08:46:30 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/20 10:41:46 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 typedef struct	s_ar
 {
 	char		*name;
+	int			ghost;
 	int			cursor;
 	int			select;
 	struct s_ar	*next;

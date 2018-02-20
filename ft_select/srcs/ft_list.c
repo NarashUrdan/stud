@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 22:41:03 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/17 05:21:01 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/20 10:41:41 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_ar *lst_first(char *name)
 	arg = malloc(sizeof(t_ar));
 	arg->name = ft_strdup(name);
 	arg->cursor = 1;
+	arg->ghost = 1;
 	arg->select = 0;
 	arg->next = NULL;
 	arg->prev = NULL;
@@ -36,6 +37,7 @@ void	lst_new(t_ar **arg, t_ar *arg2, char *name)
 	tmp->next = arg2;
 	arg2->name = ft_strdup(name);
 	arg2->cursor = 0;
+	arg2->ghost = 1;
 	arg2->select = 0;
 	arg2->prev = tmp;
 	arg2->next = NULL;
