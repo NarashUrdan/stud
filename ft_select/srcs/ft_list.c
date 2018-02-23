@@ -6,11 +6,30 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 22:41:03 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/20 10:41:41 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/23 08:50:46 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_select.h"
+
+void	ft_getsize(t_ar *arg, t_size *size)
+{
+	struct winsize	w;
+	size_t s_arg;
+
+	s_arg = 0;
+	ioctl(0, TIOCGWINSZ, &w);
+	while (arg)
+	{
+		if (ft_strlen(arg->name) > s_arg)
+			s_arg = ft_strlen(arg->name);
+		arg = arg->next;
+	}
+	size->st_row = w.ws_row;
+	size->st_col = w.ws_col;
+	size->sw_max = (int)s_arg;
+	size->sw_col = w.ws_col / (int)s_arg;
+}
 
 t_ar *lst_first(char *name)
 {
@@ -26,9 +45,10 @@ t_ar *lst_first(char *name)
 	return (arg);
 }
 
-void	lst_new(t_ar **arg, t_ar *arg2, char *name)
+void	lst_new(t_ar **arg, char *name)
 {
 	t_ar	*tmp;
+	t_ar	*arg2;
 
 	tmp = *arg;
 	arg2 = malloc(sizeof(t_ar));

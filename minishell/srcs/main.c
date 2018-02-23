@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 05:01:29 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/13 08:21:27 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/17 00:27:23 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	**ft_lignes(void)
 	char	*line;
 	char	**tab;
 
+	line = NULL;
 	ret = get_next_line(0, &line);
 	if (ret == -1)
 	{
@@ -84,7 +85,8 @@ char	**ft_lignes(void)
 		exit(EXIT_FAILURE);
 	}
 	tab = ft_splitwhitespaces(line);
-	free(line);
+	if (line)
+		free(line);
 	return (tab);
 }
 
