@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 22:41:03 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/23 08:50:46 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/24 06:27:46 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_getsize(t_ar *arg, t_size *size)
 {
 	struct winsize	w;
-	size_t s_arg;
+	size_t			s_arg;
 
 	s_arg = 0;
 	ioctl(0, TIOCGWINSZ, &w);
@@ -31,7 +31,7 @@ void	ft_getsize(t_ar *arg, t_size *size)
 	size->sw_col = w.ws_col / (int)s_arg;
 }
 
-t_ar *lst_first(char *name)
+t_ar	*lst_first(char *name)
 {
 	t_ar *arg;
 

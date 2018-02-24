@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 21:18:49 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/23 07:42:53 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/24 06:21:19 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ static struct termios	ft_get_env(void)
 	return (term);
 }
 
-static	void	ft_term(struct termios *term)
+static void				ft_term(struct termios *term)
 {
-	term->c_lflag &= ~(ICANON); 
-	term->c_lflag &= ~(ECHO); 
+	term->c_lflag &= ~(ICANON | ISIG);
+	term->c_lflag &= ~(ECHO);
 	term->c_cc[VMIN] = 1;
 	term->c_cc[VTIME] = 0;
-	 if (tcsetattr(0, TCSADRAIN, term) == -1)
-		 ft_exit(NULL, term, 0);
+	if (tcsetattr(0, TCSADRAIN, term) == -1)
+		ft_exit(NULL, term, 0);
 }
 
-int	main(int argc, char **argv)
+int						main(int argc, char **argv)
 {
 	int						i;
 	t_ar					*arg;
@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 		lst_new(&arg, argv[i]);
 	while (1)
 	{
-		ft_getsize(arg, &size); 
+		ft_getsize(arg, &size);
 		ft_putstr_fd(tgetstr("vi", NULL), 0);
 		ft_putstr_fd(tgetstr("ti", NULL), 0);
 		ft_putstr_fd(tgetstr("cl", NULL), 0);
@@ -70,5 +70,6 @@ int	main(int argc, char **argv)
 		arg = wait_input(arg, &term, size);
 		ft_putstr_fd(tgetstr("cl", NULL), 0);
 	}
+	ft_unterm(&term);
 	return (0);
 }

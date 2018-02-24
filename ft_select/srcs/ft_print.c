@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 00:29:27 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/23 08:50:40 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/24 06:27:42 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void	ft_unterm(struct termios *term)
 	term->c_lflag |= ICANON;
 	term->c_lflag |= ECHO;
 	tcsetattr(0, 0, term);
-	ft_putstr_fd(tgetstr("me", NULL), 1);
-	ft_putstr_fd(tgetstr("cl", NULL), 1);
-	ft_putstr_fd(tgetstr("ve", NULL), 1);
+	ft_putstr_fd(tgetstr("me", NULL), 0);
+	ft_putstr_fd(tgetstr("cl", NULL), 0);
+	ft_putstr_fd(tgetstr("ve", NULL), 0);
+	ft_putstr_fd(tgetstr("te", NULL), 0);
 }
 
 void	ft_exit(t_ar **arg, struct termios *term, int mode)
@@ -50,26 +51,7 @@ void	ft_rtn(t_ar *arg, struct termios *term)
 	}
 	ft_exit(&arg, term, 1);
 }
-/*static	int	ft_sizeterm(t_ar *arg, struct winsize *w)
-{
-	size_t size;
-	int		i;
 
-	i = 0;
-	size = 0;
-	while (arg)
-	{
-		if (ft_strlen(arg->name) > size)
-			size = ft_strlen(arg->name);
-		arg = arg->next;
-		i++;
-	}
-	ioctl(0, TIOCGWINSZ, w);
-	if (w->ws_col < size || w->ws_row < i)
-		return (0);
-	return (1);
-}
-*/
 void	ft_print(t_ar *arg, t_size size)
 {
 	int	i;
@@ -98,13 +80,13 @@ void	ft_print(t_ar *arg, t_size size)
 					ft_putstr_fd(tgetstr("mr", NULL), 0);
 				ft_putstr_fd("[", 1);
 				ft_putstr_fd((arg->cursor == 1) ? ">" : " ", 1);
-				while (((int)ft_strlen(arg->name) != size.st_col) && ++i < sw/2)
+				while (((int)ft_strlen(arg->name) != size.st_col) && ++i < sw / 2)
 					ft_putstr_fd(" ", 1);
 				ft_putstr_fd(arg->name, 1);
 				while (((int)ft_strlen(arg->name) != size.st_col) && ++i <= sw)
 					ft_putstr_fd(" ", 1);
 				ft_putstr_fd(" ]", 1);
-				ft_putstr_fd(tgetstr("me", NULL), 1);
+				ft_putstr_fd(tgetstr("me", NULL), 0);
 				s = s + size.sw_max + 4;
 			}
 			arg = arg->next;

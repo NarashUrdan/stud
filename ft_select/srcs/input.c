@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 01:52:33 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/23 08:50:42 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/24 06:27:45 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	ft_left(t_ar **arg)
 	while (tmp)
 	{
 		if (tmp->prev || (tmp->prev && tmp->prev->ghost == 0))
-				tmp = tmp->prev;
+			tmp = tmp->prev;
 		else if (!tmp->prev)
 		{
 			while (tmp->next)
@@ -37,7 +37,7 @@ static void	ft_left(t_ar **arg)
 	}
 }
 
-static void ft_down(t_ar **arg, t_size size)
+static void	ft_down(t_ar **arg, t_size size)
 {
 	t_ar	*tmp;
 	int		i;
@@ -49,7 +49,7 @@ static void ft_down(t_ar **arg, t_size size)
 	tmp->cursor = 0;
 	while (tmp)
 	{
-		if (tmp->next || (tmp->next &&  tmp->next->ghost == 0))
+		if (tmp->next || (tmp->next && tmp->next->ghost == 0))
 		{
 			tmp = tmp->next;
 			i++;
@@ -69,7 +69,7 @@ static void ft_down(t_ar **arg, t_size size)
 	}
 }
 
-static void ft_up(t_ar **arg, t_size size)
+static void	ft_up(t_ar **arg, t_size size)
 {
 	t_ar	*tmp;
 	int		i;
@@ -81,7 +81,7 @@ static void ft_up(t_ar **arg, t_size size)
 	tmp->cursor = 0;
 	while (tmp)
 	{
-		if (tmp->prev || (tmp->prev &&  tmp->prev->ghost == 0))
+		if (tmp->prev || (tmp->prev && tmp->prev->ghost == 0))
 		{
 			tmp = tmp->prev;
 			i++;
@@ -101,7 +101,7 @@ static void ft_up(t_ar **arg, t_size size)
 	}
 }
 
-static void ft_right(t_ar **arg)
+static void	ft_right(t_ar **arg)
 {
 	t_ar	*tmp;
 
@@ -111,7 +111,7 @@ static void ft_right(t_ar **arg)
 	tmp->cursor = 0;
 	while (tmp)
 	{
-		if (tmp->next || (tmp->next &&  tmp->next->ghost == 0))
+		if (tmp->next || (tmp->next && tmp->next->ghost == 0))
 			tmp = tmp->next;
 		else if (!tmp->next)
 		{
@@ -125,6 +125,7 @@ static void ft_right(t_ar **arg)
 		}
 	}
 }
+
 static void	ft_select(t_ar **arg)
 {
 	t_ar	*tmp;
@@ -201,13 +202,18 @@ static void	ft_del(t_ar **arg, struct termios *term)
 	}
 }
 
-t_ar	*wait_input(t_ar *arg, struct termios *term, t_size size)
+t_ar		*wait_input(t_ar *arg, struct termios *term, t_size size)
 {
 	char	ret[4];
 	int		res;
 
 	if ((res = read(0, &ret, 4)) == -1)
-		ft_exit(&arg, term,  0);
+		ft_exit(&arg, term, 0);
+	if (ret[0] == 26)
+	{
+		ft_unterm(term);
+		exit(EXIT_SUCCESS);
+	}
 	if (ret[3] == 126 || ret[0] == 127)
 		ft_del(&arg, term);
 	if ((ret[0] == 27 && ret[1] == '\0') || ret[0] == 3)

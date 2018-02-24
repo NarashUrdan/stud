@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 21:17:33 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/23 08:50:49 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/24 06:27:50 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,5 @@ void	ft_rtn(t_ar *arg, struct termios *term);
 void	ft_print(t_ar *arg, t_size size);
 void	lst_new(t_ar **arg, char *name);
 void	ft_getsize(t_ar *arg, t_size *size);
+void	ft_unterm(struct termios *term);
 #endif
