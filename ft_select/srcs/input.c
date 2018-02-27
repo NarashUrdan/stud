@@ -6,125 +6,11 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 01:52:33 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/24 06:27:45 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/27 10:50:50 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_select.h"
-
-static void	ft_left(t_ar **arg)
-{
-	t_ar	*tmp;
-
-	tmp = *arg;
-	while (tmp->next && tmp->cursor == 0)
-		tmp = tmp->next;
-	tmp->cursor = 0;
-	while (tmp)
-	{
-		if (tmp->prev || (tmp->prev && tmp->prev->ghost == 0))
-			tmp = tmp->prev;
-		else if (!tmp->prev)
-		{
-			while (tmp->next)
-				tmp = tmp->next;
-		}
-		if (tmp && tmp->ghost == 1)
-		{
-			tmp->cursor = 1;
-			break ;
-		}
-	}
-}
-
-static void	ft_down(t_ar **arg, t_size size)
-{
-	t_ar	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = *arg;
-	while (tmp->next && tmp->cursor == 0)
-		tmp = tmp->next;
-	tmp->cursor = 0;
-	while (tmp)
-	{
-		if (tmp->next || (tmp->next && tmp->next->ghost == 0))
-		{
-			tmp = tmp->next;
-			i++;
-		}
-		else if (!tmp->next)
-		{
-			while (tmp->prev)
-				tmp = tmp->prev;
-			i = size.sw_col + 1;
-		}
-		if (i > size.sw_col && tmp && tmp->ghost == 1)
-		{
-			tmp->cursor = 1;
-			break ;
-		}
-		i++;
-	}
-}
-
-static void	ft_up(t_ar **arg, t_size size)
-{
-	t_ar	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = *arg;
-	while (tmp->next && tmp->cursor == 0)
-		tmp = tmp->next;
-	tmp->cursor = 0;
-	while (tmp)
-	{
-		if (tmp->prev || (tmp->prev && tmp->prev->ghost == 0))
-		{
-			tmp = tmp->prev;
-			i++;
-		}
-		else if (!tmp->prev)
-		{
-			while (tmp->next)
-				tmp = tmp->next;
-			i = size.sw_col + 1;
-		}
-		if (i > size.sw_col && tmp && tmp->ghost == 1)
-		{
-			tmp->cursor = 1;
-			break ;
-		}
-		i++;
-	}
-}
-
-static void	ft_right(t_ar **arg)
-{
-	t_ar	*tmp;
-
-	tmp = *arg;
-	while (tmp->next && tmp->cursor == 0)
-		tmp = tmp->next;
-	tmp->cursor = 0;
-	while (tmp)
-	{
-		if (tmp->next || (tmp->next && tmp->next->ghost == 0))
-			tmp = tmp->next;
-		else if (!tmp->next)
-		{
-			while (tmp->prev)
-				tmp = tmp->prev;
-		}
-		if (tmp && tmp->ghost == 1)
-		{
-			tmp->cursor = 1;
-			break ;
-		}
-	}
-}
 
 static void	ft_select(t_ar **arg)
 {
@@ -154,19 +40,6 @@ static void	ft_select(t_ar **arg)
 	}
 }
 
-static t_ar	*ft_arrow(t_ar *arg, char *ret, t_size size)
-{
-	if (ret[2] == 68)
-		ft_left(&arg);
-	else if (ret[2] == 67)
-		ft_right(&arg);
-	else if (ret[2] == 66)
-		ft_down(&arg, size);
-	else if (ret[2] == 65)
-		ft_up(&arg, size);
-	return (arg);
-}
-
 static int	ft_ghost(t_ar **arg)
 {
 	t_ar	*tmp;
@@ -181,12 +54,10 @@ static int	ft_ghost(t_ar **arg)
 	return (1);
 }
 
-static void	ft_del(t_ar **arg, struct termios *term)
+static void	ft_del(t_ar **arg, struct termios *term, t_size size)
 {
 	t_ar	*tmp;
-	t_ar	*gst;
 
-	gst = (*arg);
 	tmp = (*arg);
 	if (ft_ghost(arg))
 		ft_exit(arg, term, 1);
@@ -194,12 +65,29 @@ static void	ft_del(t_ar **arg, struct termios *term)
 	{
 		if (tmp->cursor == 1)
 		{
+			tmp->value = 0;
 			tmp->ghost = 0;
-			ft_right(arg);
+			(tmp->next) ? ft_right(&tmp) : ft_left(&tmp);
+			while (tmp)
+			{
+				if (tmp->value == 1)
+					tmp->value = size.sw_col;
+				else if (tmp->value != 0)
+					tmp->value = tmp->value - 1;
+				tmp = tmp->next;
+			}
 			break ;
 		}
 		tmp = tmp->next;
 	}
+}
+
+static void	ft_resize(t_ar **arg, t_size *size)
+{
+	ft_getsize(*arg, size);
+	ft_putstr_fd(tgetstr("cl", NULL), 0);
+	ft_check_value(arg, *size);
+	ft_print(*arg, *size);
 }
 
 t_ar		*wait_input(t_ar *arg, struct termios *term, t_size size)
@@ -207,16 +95,17 @@ t_ar		*wait_input(t_ar *arg, struct termios *term, t_size size)
 	char	ret[4];
 	int		res;
 
+	if (SIGWINCH)
+		ft_resize(&arg, &size);
 	if ((res = read(0, &ret, 4)) == -1)
 		ft_exit(&arg, term, 0);
 	if (ret[0] == 26)
-	{
-		ft_unterm(term);
-		exit(EXIT_SUCCESS);
-	}
+		ft_stop(term);
+	if (SIGCONT)
+		ft_cont(term);
 	if (ret[3] == 126 || ret[0] == 127)
-		ft_del(&arg, term);
-	if ((ret[0] == 27 && ret[1] == '\0') || ret[0] == 3)
+		ft_del(&arg, term, size);
+	if ((ret[0] == 27 && ret[2] == '\0') || ret[0] == 3)
 		ft_exit(&arg, term, 1);
 	if (ret[2] >= 65 && ret[2] <= 68)
 		arg = ft_arrow(arg, ret, size);

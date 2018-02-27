@@ -6,13 +6,13 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 21:18:49 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/24 06:21:19 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/02/27 10:33:38 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_select.h"
 
-static struct termios	ft_get_env(void)
+struct termios	ft_get_env(void)
 {
 	char					*env;
 	static struct termios	term;
@@ -35,7 +35,7 @@ static struct termios	ft_get_env(void)
 	return (term);
 }
 
-static void				ft_term(struct termios *term)
+void			ft_term(struct termios *term)
 {
 	term->c_lflag &= ~(ICANON | ISIG);
 	term->c_lflag &= ~(ECHO);
@@ -45,7 +45,26 @@ static void				ft_term(struct termios *term)
 		ft_exit(NULL, term, 0);
 }
 
-int						main(int argc, char **argv)
+void			ft_check_value(t_ar **arg, t_size size)
+{
+	t_ar	*tmp;
+
+	tmp = *arg;
+	while (tmp)
+	{
+		if (tmp->value != 0)
+		{
+			if (tmp->prev && tmp->prev->value != 0 &&
+				tmp->prev->value < size.sw_col)
+				tmp->value = tmp->prev->value + 1;
+			else if (!tmp->prev || tmp->prev->value >= size.sw_col)
+				tmp->value = 1;
+		}
+		tmp = tmp->next;
+	}
+}
+
+int				main(int argc, char **argv)
 {
 	int						i;
 	t_ar					*arg;
@@ -58,11 +77,12 @@ int						main(int argc, char **argv)
 	ft_term(&term);
 	arg = lst_first(argv[1]);
 	i = 1;
+	ft_getsize(arg, &size);
 	while (argv[++i])
-		lst_new(&arg, argv[i]);
+		lst_new(&arg, argv[i], size);
 	while (1)
 	{
-		ft_getsize(arg, &size);
+		ft_signal();
 		ft_putstr_fd(tgetstr("vi", NULL), 0);
 		ft_putstr_fd(tgetstr("ti", NULL), 0);
 		ft_putstr_fd(tgetstr("cl", NULL), 0);
@@ -70,6 +90,5 @@ int						main(int argc, char **argv)
 		arg = wait_input(arg, &term, size);
 		ft_putstr_fd(tgetstr("cl", NULL), 0);
 	}
-	ft_unterm(&term);
 	return (0);
 }
