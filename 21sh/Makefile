@@ -6,13 +6,13 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/03/04 02:47:58 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/03/06 02:51:42 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	21sh
 
-FLAG	=	-Werror -Wextra -Wall -g3 #-fsanitize=address 
+FLAG	=	-Werror -Wextra -Wall -g3 -fsanitize=address 
 
 PTH_LIBFT	=	libft
 LIBFT		=	$(PTH_LIBFT)/libft.a
@@ -21,6 +21,7 @@ LNK_LIBFT	=	-L. $(LIBFT) -ltermcap
 PTH_SRC		=	srcs
 
 SRC			=	main.c\
+				parser.c\
 				lexer.c\
 				lex_tools.c\
 

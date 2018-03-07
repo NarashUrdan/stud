@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:32:18 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/05 00:19:04 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/06 02:49:11 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,13 @@ void	ft_init(t_lex *cmd);
 ** lex_tools.c
 */
 int		ft_isalphan(int c);
+int		ft_isred(int c);
 int		ft_isop(int c);
 int		ft_issep(int c);
 void	ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp(int c)));
 
+/*
+** parser.c
+*/
+int		parser(t_lex **cmd);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 08:06:01 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/05 00:47:44 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/07 00:38:29 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,15 @@
 
 int			ft_isalphan(int c)
 {
-	if (!ft_isdigit(c) && !ft_isop(c) && !ft_issep(c) && c != ' ')
+	if (!ft_isred(c) && !ft_isdigit(c) &&
+		!ft_isop(c) && !ft_issep(c) && c != ' ')
+		return (1);
+	return (0);
+}
+
+int			ft_isred(int c)
+{
+	if (c == 60 || c == 62)
 		return (1);
 	return (0);
 }
@@ -46,6 +54,8 @@ static char	*ft_type(int c)
 		tmp = ft_strdup("op");
 	if (ft_issep(c))
 		tmp = ft_strdup("sep");
+	if (ft_isred(c))
+		tmp = ft_strdup("red");
 	return (tmp);
 }
 
