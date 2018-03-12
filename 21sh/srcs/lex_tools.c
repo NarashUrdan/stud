@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 08:06:01 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/07 00:38:29 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/12 16:30:14 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ void		ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp)(int c))
 	last->data = ft_strsub(str, start, (l - start));
 	last->prev = tmp;
 	last->type = ft_type(str[start]);
-	last->value = (last->prev == NULL || !ft_strcmp(last->prev->type, "sep") ||
-	!ft_strcmp(last->type, "sep")) ? 1 : last->prev->value + 1;
+	last->value = (last->prev == NULL) ? 1 : last->prev->value + 1;
 	last->next = NULL;
 	*i = l;
 }

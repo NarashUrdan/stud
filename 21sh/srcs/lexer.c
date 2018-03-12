@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:31:17 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/07 00:37:36 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/12 16:30:14 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static void	lexer2(t_lex **cmd)
 			!ft_isdigit(tmp->data[0]))
 			tmp->type = ft_strdup("command");
 		else if (tmp->value == 2 && tmp->data[0] == '-')
-			tmp->type = ft_strdup("command option");
+			tmp->type = ft_strdup("op");
 		else if ((tmp->value > 1 && ft_isalphan(tmp->data[0])) ||
 			ft_isdigit(tmp->data[0]))
 			tmp->type = ft_strdup("arg");
 		else if (ft_isred(tmp->data[0]))
-			tmp->type = ft_strdup("redirection");
+			tmp->type = ft_strdup("red");
 		else
 			tmp->type = ft_strdup("sep");
 		tmp = tmp->next;
@@ -57,14 +57,17 @@ int			ft_check(char *str)
 	{
 		if (str[i] != ' ' && str[i] != '\n' && ft_isalphan(str[i]))
 			ft_new(str, &cmd, &i, &(ft_isalphan));
+		else if (str[i] != '\n' && ft_isdigit(str[i]) && ft_isred(str[i + 1]))
+		{
+			i++;
+			ft_new(str, &cmd, &i, &(ft_isred));
+		}
 		else if (str[i] != ' ' && str[i] != '\n' && ft_isdigit(str[i]))
 			ft_new(str, &cmd, &i, &(ft_isdigit));
 		else if (str[i] != ' ' && str[i] != '\n' && ft_issep(str[i]))
 			ft_new(str, &cmd, &i, &(ft_issep));
 		else if (str[i] != '\n' && ft_isop(str[i]))
 			ft_new(str, &cmd, &i, &(ft_isop));
-		else if (str[i] != '\n' && ft_isred(str[i]))
-			ft_new(str, &cmd, &i, &(ft_isred));
 		else if (str[i] != '\n' && str[i] == ' ')
 			i++;
 	}

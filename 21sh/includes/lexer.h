@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:32:18 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/06 02:49:11 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/12 16:10:08 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ typedef struct	s_lex
 	struct s_lex	*prev;
 }				t_lex;
 
+typedef	struct	s_tree
+{
+	char			*cmd;
+	char			*args;
+	char			*op;
+	struct	s_tree	*left;
+	struct	s_tree	*right;
+}				t_tree;
+
 /*
 ** lexer.c
 */
@@ -44,5 +53,4 @@ void	ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp(int c)));
 /*
 ** parser.c
 */
-int		parser(t_lex **cmd);
 #endif

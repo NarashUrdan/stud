@@ -6,7 +6,7 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/03/06 02:51:42 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/03/11 10:38:51 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ LNK_LIBFT	=	-L. $(LIBFT) -ltermcap
 PTH_SRC		=	srcs
 
 SRC			=	main.c\
-				parser.c\
 				lexer.c\
 				lex_tools.c\
 
