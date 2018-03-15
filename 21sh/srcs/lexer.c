@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:31:17 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/12 16:30:14 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/15 17:47:11 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,40 @@ void		ft_init(t_lex *cmd)
 	cmd->value = 0;
 }
 
-static void	lexer2(t_lex **cmd)
+static int	lexer2(t_lex **cmd)
 {
-	t_lex *tmp;
+	t_lex 	*tmp;
+	int		i;
 
 	tmp = *cmd;
 	while (tmp)
 	{
 		free(tmp->type);
-		if (tmp->value == 1 && !ft_issep(tmp->data[0]) &&
-			!ft_isdigit(tmp->data[0]))
-			tmp->type = ft_strdup("command");
-		else if (tmp->value == 2 && tmp->data[0] == '-')
+		if ((!tmp->prev || !ft_strcmp(tmp->prev->type, "sep")) &&
+				!ft_issep(tmp->data[0]))
+			tmp->type = ft_strdup("co");
+		else if (tmp->data[0] == '-')
 			tmp->type = ft_strdup("op");
-		else if ((tmp->value > 1 && ft_isalphan(tmp->data[0])) ||
-			ft_isdigit(tmp->data[0]))
+		else if ((ft_isalphan(tmp->data[0]) || ft_isdigit(tmp->data[0])) &&
+				!ft_isred(tmp->data))
 			tmp->type = ft_strdup("arg");
-		else if (ft_isred(tmp->data[0]))
+		else if (ft_isred(tmp->data))
 			tmp->type = ft_strdup("red");
 		else
 			tmp->type = ft_strdup("sep");
+		i = tmp->value;
 		tmp = tmp->next;
 	}
+	return (i);
 }
 
 int			ft_check(char *str)
 {
 	int		i;
 	t_lex	*cmd;
+	t_tree	*tree;
 
+	tree = malloc(sizeof(t_tree));
 	cmd = malloc(sizeof(t_lex));
 	ft_init(cmd);
 	i = 0;
@@ -57,11 +62,8 @@ int			ft_check(char *str)
 	{
 		if (str[i] != ' ' && str[i] != '\n' && ft_isalphan(str[i]))
 			ft_new(str, &cmd, &i, &(ft_isalphan));
-		else if (str[i] != '\n' && ft_isdigit(str[i]) && ft_isred(str[i + 1]))
-		{
-			i++;
-			ft_new(str, &cmd, &i, &(ft_isred));
-		}
+		else if (str[i] != '\n' && ft_isdigit(str[i]) && ft_isred(&str[i + 1]))
+			ft_new(str, &cmd, &i, &(ft_isnotspace));
 		else if (str[i] != ' ' && str[i] != '\n' && ft_isdigit(str[i]))
 			ft_new(str, &cmd, &i, &(ft_isdigit));
 		else if (str[i] != ' ' && str[i] != '\n' && ft_issep(str[i]))
@@ -71,7 +73,8 @@ int			ft_check(char *str)
 		else if (str[i] != '\n' && str[i] == ' ')
 			i++;
 	}
-	lexer2(&cmd);
+	i = lexer2(&cmd);
+	ft_makeabigtree(cmd, &tree, i + 1);
 	while (cmd)
 	{
 		ft_putendl("---data----");
@@ -90,5 +93,7 @@ int			ft_check(char *str)
 		free(cmd->prev);
 		write(1, "\n", 1);
 	}
+	ft_putendl("----DEBUTTREE----");
+	ft_printtree(tree);
 	return (0);
 }
