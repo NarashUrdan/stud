@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:32:18 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/15 15:38:52 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/16 13:37:53 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ void	ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp(int c)));
 /*
 ** parser.c
 */
-void	ft_makeabigtree(t_lex *cmd, t_tree **tree, int value);
+void	ft_makeabigtree(t_lex **cmd, t_tree **tree, int value);
 #endif
