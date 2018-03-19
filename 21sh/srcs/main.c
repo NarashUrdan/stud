@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 10:38:25 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/16 15:07:54 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/19 16:01:05 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void	ft_printtree(t_tree *tree)
 	ft_putendl("--leaf left--");
 	ft_printtree(tree->left);
 	ft_putendl("--end tree--");
+	free(tree->cmd);
+	free(tree->op);
+	free(tree->args);
+	free(tree);
 }
 
 int	main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:31:17 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/16 16:55:44 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/19 17:31:20 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,12 @@ int			ft_check(char *str)
 			ft_new(str, &cmd, &i, &(ft_isdigit));
 		else if (str[i] != ' ' && str[i] != '\n' && ft_issep(str[i]))
 			ft_new(str, &cmd, &i, &(ft_issep));
-		else if (str[i] != '\n' && ft_isop(str[i]))
+		else if (str[i] != '\n' && !ft_isop(str[i]))
+		{
+			i++;
 			ft_new(str, &cmd, &i, &(ft_isop));
+			i++;
+		}
 		else if (str[i] != '\n' && str[i] == ' ')
 			i++;
 	}
@@ -77,7 +81,6 @@ int			ft_check(char *str)
 	while (cmd->prev)
 		cmd = cmd->prev;
 	ft_makeabigtree(&cmd, &tree, i);
-	ft_putendl_fd(tree->cmd, 2);
 /*	while (cmd)
 	{
 		ft_putendl("---data----");
@@ -95,8 +98,8 @@ int			ft_check(char *str)
 			break ;
 		free(cmd->prev);
 		write(1, "\n", 1);
-	}*/
-	ft_putendl("----DEBUTTREE----");
+	}
+*/	ft_putendl("----DEBUTTREE----");
 	ft_printtree(tree);
 	return (0);
 }
