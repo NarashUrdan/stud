@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:31:17 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/19 17:31:20 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/21 15:16:03 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int			ft_check(char *str)
 	while (cmd->prev)
 		cmd = cmd->prev;
 	ft_makeabigtree(&cmd, &tree, i);
-/*	while (cmd)
+	while (cmd)
 	{
 		ft_putendl("---data----");
 		ft_putendl(cmd->data);
@@ -99,7 +99,8 @@ int			ft_check(char *str)
 		free(cmd->prev);
 		write(1, "\n", 1);
 	}
-*/	ft_putendl("----DEBUTTREE----");
+	ft_putendl("----DEBUTTREE----");
 	ft_printtree(tree);
+//	while (1);
 	return (0);
 }

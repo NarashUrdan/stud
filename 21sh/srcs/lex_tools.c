@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 08:06:01 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/19 17:31:20 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/21 15:24:03 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,16 @@ int			ft_issep(int c)
 
 static char	*ft_type(int c)
 {
-	char *tmp;
-
-	tmp = NULL;
 	if (ft_isalphan(c))
-		tmp = ft_strdup("char");
-	if (ft_isdigit(c))
-		tmp = ft_strdup("int");
-	if (ft_isop(c))
-		tmp = ft_strdup("op");
-	if (ft_issep(c))
-		tmp = ft_strdup("sep");
-	return (tmp);
+		return("char");
+	else if (ft_isdigit(c))
+		return("int");
+	else if (ft_isop(c))
+		return("op");
+	else if (ft_issep(c))
+		return("sep");
+	else
+		return (NULL);
 }
 /*void		ft_rednew(t_lex **last)
 {
@@ -109,10 +107,8 @@ void		ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp)(int c))
 		tmp->next = last;
 	last->data = ft_strsub(str, start, (l - start));
 	last->prev = tmp;
-	last->type = ft_type(str[start]);
+	last->type = ft_strdup(ft_type(str[start]));
 	last->value = (last->prev == NULL) ? 1 : last->prev->value + 1;
 	last->next = NULL;
 	*i = l;
-//	if (!ft_strcmp(last->type, "red"))
-//		ft_rednew(&last);
 }
