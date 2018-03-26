@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 10:38:25 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/21 14:35:30 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/23 14:27:58 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ int	main(int argc, char **argv)
 		str[l + 1] = '\0';
 		ft_putstr_fd(str, 2);
 		ft_check(str);
-
+		free(str);
 	return (0);
 }

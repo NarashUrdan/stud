@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 08:06:01 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/21 15:24:03 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/26 08:45:46 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,7 @@ static char	*ft_type(int c)
 	else
 		return (NULL);
 }
-/*void		ft_rednew(t_lex **last)
-{
-	char	*op;
-	char	*args;
-	int		i;
-	t_lex	*tmp;
 
-	tmp = *last;
-	while (tmp->next)
-		tmp = tmp->next;
-	i = 1;
-	op = ft_strsub(tmp->data, 0, 1);
-	while (ft_isred(tmp->data[i]))
-		i++;
-	args = ft_strsub(tmp->data, i, (ft_strlen(tmp->data) - i));
-	tmp = tmp->next;
-	tmp->data = ft_strdup(op);
-i
-}
-*/
 void		ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp)(int c))
 {
 	int		start;
@@ -94,17 +75,18 @@ void		ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp)(int c))
 	int		l;
 	t_lex	*tmp;
 
-	tmp = ((*cmd)->data) ? *cmd : NULL;
-	last = ((*cmd)->data != NULL) ? malloc(sizeof(t_lex)) : *cmd;
+	tmp = *cmd;
+	last = malloc(sizeof(t_lex));
 	l = *i;
-	if (tmp)
-		while (tmp->next)
-			tmp = tmp->next;
+	while (tmp && tmp->next != NULL)
+		tmp = tmp->next;
 	start = *i;
 	while (str[l] != '\n' && ft_cmp(str[l]))
 		l++;
-	if ((*cmd)->data != NULL)
+	if (tmp != NULL)
 		tmp->next = last;
+	else
+		*cmd = last;
 	last->data = ft_strsub(str, start, (l - start));
 	last->prev = tmp;
 	last->type = ft_strdup(ft_type(str[start]));

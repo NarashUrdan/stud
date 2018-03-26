@@ -6,20 +6,11 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:31:17 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/21 15:16:03 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/26 09:05:42 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lexer.h"
-
-void		ft_init(t_lex *cmd)
-{
-	cmd->data = NULL;
-	cmd->type = NULL;
-	cmd->next = NULL;
-	cmd->prev = NULL;
-	cmd->value = 0;
-}
 
 static int	lexer2(t_lex **cmd)
 {
@@ -55,8 +46,7 @@ int			ft_check(char *str)
 	t_tree	*tree;
 
 	tree = malloc(sizeof(t_tree));
-	cmd = malloc(sizeof(t_lex));
-	ft_init(cmd);
+	cmd = NULL;
 	i = 0;
 	while (str[i] != '\n' && str[i])
 	{
@@ -99,8 +89,8 @@ int			ft_check(char *str)
 		free(cmd->prev);
 		write(1, "\n", 1);
 	}
+	free(cmd);
 	ft_putendl("----DEBUTTREE----");
 	ft_printtree(tree);
-//	while (1);
 	return (0);
 }
