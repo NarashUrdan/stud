@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 10:35:37 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/26 09:05:24 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/28 14:10:07 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	ft_addleaf(t_tree **tree, t_lex **cmd, int val)
 	tmp = *cmd;
 	while (tmp->value != val)
 		tmp = tmp->next;
-	cd = ft_strdup(tmp->data);
-	tmp = tmp->next;
 	while (tmp && ft_strcmp(tmp->type, "sep"))
 	{
 		if (ft_strcmp(tmp->type, "red"))
@@ -40,6 +38,7 @@ void	ft_addleaf(t_tree **tree, t_lex **cmd, int val)
 		}
 		tmp= tmp->next;
 	}
+	cd = ft_strsub(args, 0, (ft_strlen(args) - ft_strlen(ft_strchr(args, 59))));
 	(*tree)->op = ft_strdup(op);
 	(*tree)->args = ft_strdup(args);
 	(*tree)->cmd = ft_strdup(cd);

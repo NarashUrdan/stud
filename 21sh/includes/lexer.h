@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:32:18 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/20 17:42:58 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/28 16:23:44 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "../libft/libft.h"
-# include <stdio.h>
-
+//# include <stdio.h>
+# include <sys/wait.h>
+#include <sys/types.h> 
 typedef struct	s_lex
 {
 	int				value;
@@ -45,6 +46,7 @@ void	ft_init(t_lex *cmd);
 /*
 ** lex_tools.c
 */
+void	ft_newred(char *str, t_lex **cmd, int *i);
 int		ft_isalphan(int c);
 int		ft_isnotspace(int c);
 int		ft_isred(char *str);
@@ -56,4 +58,14 @@ void	ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp(int c)));
 ** parser.c
 */
 void	ft_makeabigtree(t_lex **cmd, t_tree **tree, int value);
+
+/*
+** execve.c
+*/
+int	ft_exec(t_tree *tree);
+
+/*
+** execve2.c
+*/
+int ft_sep(t_tree *tree, int i);
 #endif

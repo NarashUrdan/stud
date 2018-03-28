@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 08:06:01 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/26 08:45:46 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/03/28 12:01:51 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,38 @@ static char	*ft_type(int c)
 		return("sep");
 	else
 		return (NULL);
+}
+void		ft_newred(char *str, t_lex **cmd, int *i)
+{
+	int		start;
+	t_lex	*last;
+	int		l;
+	t_lex	*tmp;
+
+	tmp = *cmd;
+	last = malloc(sizeof(t_lex));
+	l = *i + 1;
+	while (tmp && tmp->next != NULL)
+		tmp = tmp->next;
+	start = *i;
+	while (str[l] != '\n' && str[l] != ' ')
+		l++;
+	if (tmp != NULL)
+		tmp->next = last;
+	else
+		*cmd = last;
+	if (!ft_isalpha(str[l - 1]))
+	{
+		l++;
+		while (str[l] != '\n' && str[l] != ' ')
+			l++;
+	}
+	last->data = ft_strsub(str, start, (l - start));
+	last->prev = tmp;
+	last->type = ft_strdup("red");
+	last->value = (last->prev == NULL) ? 1 : last->prev->value + 1;
+	last->next = NULL;
+	*i = l;
 }
 
 void		ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp)(int c))

@@ -6,13 +6,13 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/03/26 08:38:09 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/03/28 14:32:22 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	21sh
 
-FLAG	=	-Werror -Wextra -Wall -g3 #-fsanitize=address 
+FLAG	=	-Werror -Wextra -Wall -g3 -fsanitize=address 
 
 PTH_LIBFT	=	libft
 LIBFT		=	$(PTH_LIBFT)/libft.a
@@ -24,6 +24,8 @@ SRC			=	main.c\
 				lexer.c\
 				parser2.c\
 				lex_tools.c\
+				execve.c\
+				execve2.c\
 
 SRCS		=	$(addprefix $(PTH_SRC), $(SRC))
 
