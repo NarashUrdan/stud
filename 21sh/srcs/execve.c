@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 09:55:59 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/28 16:36:43 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/10 15:05:20 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_getpath(char *cmd)
 	return (path);
 }
 
-int		ft_exec(t_tree *tree)
+int		ft_exec(t_tree *tree, int pfd[])
 {
 	char		**arv;
 	char		*path;
@@ -58,13 +58,15 @@ int		ft_exec(t_tree *tree)
 	int			i;
 
 	i = 0;
-/*	if (pipe(npfd) == -1)
+	if (!tree)
+		return (2);
+	if (pipe(pfd) == -1)
 	{
 		ft_putendl_fd("error pipe de merde", 2);
 		exit(EXIT_FAILURE);
 		// exit 13 (141)
 	}
-	if (tree->left)
+/*	if (tree->left)
 		i = ft_exec(tree->left, npfd);
 	if (tree->right)
 		i = ft_exec(tree->right, npfd);
@@ -72,7 +74,9 @@ int		ft_exec(t_tree *tree)
 		ft_sep(tree);
 	else
 	{
-*/		if ((path = ft_getpath(tree->cmd)) == NULL)
+*/	
+	close(pfd[0]);
+	if ((path = ft_getpath(tree->cmd)) == NULL)
 			return (-1);
 		arv = ft_strsplit(tree->args, 59);
 		if ((cpid = fork()) == -1)
@@ -85,6 +89,7 @@ int		ft_exec(t_tree *tree)
 		{
 			i = execve(path, arv, environ);
 		}
+		close(pfd[1]);
 		waitpid(cpid, &i, WEXITSTATUS(i));
 //	}
 	return (i);

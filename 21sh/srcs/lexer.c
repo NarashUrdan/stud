@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:31:17 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/28 16:36:52 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/09 14:49:55 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int			ft_check(char *str)
 	ft_putendl("----DEBUTTREE----");
 //	ft_printtree(tree);
 	ft_putendl("--EXEC--");
-	ft_sep(tree, 0);
+	ft_sep(tree, 0, pipefd);
 //	ft_putendl("a");
 	return (0);
 }

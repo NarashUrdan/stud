@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:32:18 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/28 16:23:44 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/09 14:58:40 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "../libft/libft.h"
-//# include <stdio.h>
 # include <sys/wait.h>
-#include <sys/types.h> 
+# include <sys/types.h> 
+# define BUFF_SIZE 4096
+
+int get_next_line(const int fd, char **line);
+
 typedef struct	s_lex
 {
 	int				value;
@@ -62,10 +65,9 @@ void	ft_makeabigtree(t_lex **cmd, t_tree **tree, int value);
 /*
 ** execve.c
 */
-int	ft_exec(t_tree *tree);
-
+int	ft_exec(t_tree *tree, int pfd[]);
 /*
 ** execve2.c
 */
-int ft_sep(t_tree *tree, int i);
+int ft_sep(t_tree *tree, int i, int pfd[]);
 #endif

@@ -6,7 +6,7 @@
 #    By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/14 22:19:39 by jukuntzm          #+#    #+#              #
-#    Updated: 2018/03/28 14:32:22 by jukuntzm         ###   ########.fr        #
+#    Updated: 2018/04/09 14:58:09 by jukuntzm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC			=	main.c\
 				lex_tools.c\
 				execve.c\
 				execve2.c\
+				get_next_line.c\
 
 SRCS		=	$(addprefix $(PTH_SRC), $(SRC))
 
