@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:32:18 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/09 14:58:40 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/13 16:11:31 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <sys/wait.h>
 # include <sys/types.h> 
 # define BUFF_SIZE 4096
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 int get_next_line(const int fd, char **line);
 
@@ -65,9 +68,9 @@ void	ft_makeabigtree(t_lex **cmd, t_tree **tree, int value);
 /*
 ** execve.c
 */
-int	ft_exec(t_tree *tree, int pfd[]);
+int	ft_exec(t_tree *tree);
 /*
 ** execve2.c
 */
-int ft_sep(t_tree *tree, int i, int pfd[]);
+int ft_sep(t_tree *tree, int i);
 #endif

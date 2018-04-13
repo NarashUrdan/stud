@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:31:17 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/09 14:49:55 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/13 19:06:53 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ int			ft_check(char *str)
 	int		i;
 	t_lex	*cmd;
 	t_tree	*tree;
-	int		*pipefd;
+//	int		*pipefd;
 
-	pipefd =(int *)malloc(sizeof(int) * 2);
+//	pipefd =(int *)malloc(sizeof(int) * 2);
 	tree = malloc(sizeof(t_tree));
 	cmd = NULL;
 	i = 0;
@@ -116,8 +116,9 @@ int			ft_check(char *str)
 	free(cmd);
 	ft_putendl("----DEBUTTREE----");
 //	ft_printtree(tree);
-	ft_putendl("--EXEC--");
-	ft_sep(tree, 0, pipefd);
+	ft_putendl_fd("--EXEC--", 2);
+	ft_sep(tree, 0);
+//	while(1) ;
 //	ft_putendl("a");
 	return (0);
 }

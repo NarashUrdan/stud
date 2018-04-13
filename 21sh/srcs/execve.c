@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 09:55:59 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/12 14:18:33 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/13 19:06:53 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,62 +49,28 @@ char	*ft_getpath(char *cmd)
 	return (path);
 }
 
-int		ft_exec(t_tree *tree, int pfd[])
+int		ft_exec(t_tree *tree)
 {
 	char		**arv;
 	char		*path;
 	extern char **environ;
 	int			i;
+//	pid_t		pid;
 
+//	pid = fork();
 	i = 0;
-	(void)pfd;
 	if (!tree)
 		return (2);
-	/* 	if (pipe(pfd) == -1)
-		{
-	*///	ft_putendl_fd("error pipe de merde", 2);
-	/*	exit(EXIT_FAILURE);
-	// exit 13 (141)
-	}
-	if (tree->left)
-	i = ft_exec(tree->left, npfd);
-	if (tree->right)
-	i = ft_exec(tree->right, npfd);
-	if (ft_issep(tree->cmd[0]))
-	ft_sep(tree);
-	else
-	{
-	*/	
-/*	close(pfd[0]);
-	dup2(pfd[1], STDOUT_FILENO);
-	close(pfd[1]);
-*/	if ((path = ft_getpath(tree->cmd)) == NULL)
+	if ((path = ft_getpath(tree->cmd)) == NULL)
 		return (-1);
 	arv = ft_strsplit(tree->args, 59);
-//	ft_print_words_tables(arv);
-/*	cpid = fork();
-	if (cpid == -1)
-	{
-		ft_putendl_fd("error fork", 2);
-		exit (EXIT_FAILURE);
-		// exit 6? (?)
-	}
-	else
-	{
-*/		if ((i = execve(path, arv, environ)) == -1)
-		{
-			ft_putendl_fd("error exec", 2);
-			return (1);
-		}
-	ft_putendl_fd(path, 1);
-//	ft_putnbr_fd(i, 2);
-//	ft_putendl_fd("i size", 2);
-//	}
-//	close(pfd[1]);
-//	ft_putendl_fd("cpid ", 2);
-//	ft_putnbr_fd(cpid, 2);
-//	write(2, "\n", 1);
-//		ft_putendl_fd("error pipe", 2);
-	//	}
+//		if (pid == 0)
+//		{
+			i = execve(path, arv, environ);
+			if (i == -1)
+				ft_putendl_fd("error exec", 2);
+//		}
+		ft_putendl_fd("fin exec", 2);
+//	waitpid(-1, &i, WEXITSTATUS(i));
 	return (i);
 }
