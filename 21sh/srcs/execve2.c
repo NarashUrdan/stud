@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/28 12:02:19 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/13 19:06:53 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/15 15:53:40 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	ft_res_fd(void)
 static int	ft_exec_pipe(t_tree *tree, int i)
 {
 	int	npfd[2];
-	pid_t	pid;
+//	pid_t	pid;
 
 	ft_putendl_fd("exec pipe", 2);
-	if ((pipe(npfd) == -1) || ((pid = fork()) == -1))
+	if ((pipe(npfd) == -1)/* || ((pid = fork()) == -1)*/)
 		return (1);
-	ft_putnbr_fd(pid, 2);
-	if (pid == 0)
+//	ft_putnbr_fd(pid, 2);
+	if (fork() == 0)
 	{
 		close(npfd[1]);
 		dup2(npfd[0], 0);
@@ -37,8 +37,9 @@ static int	ft_exec_pipe(t_tree *tree, int i)
 		i = ft_exec(tree);
 //	waitpid(-1, &i, WEXITSTATUS(i));
 		ft_res_fd();
+		exit(0);
 	}
-	else
+	if (fork() == 0)
 	{
 		close(npfd[0]);
 		dup2(npfd[1], 1);
@@ -47,9 +48,13 @@ static int	ft_exec_pipe(t_tree *tree, int i)
 		i = ft_sep(tree->left, i);
 	//waitpid(-1, &i, WEXITSTATUS(i));
 		ft_res_fd();
-		return (i);
+		exit(0);
 	}
-	waitpid(-1, &i, WEXITSTATUS(i));
+		close(npfd[0]);
+		close(npfd[1]);
+//	wait(NULL);
+	waitpid(-1, 0, 0);
+	waitpid(-1, 0, 0);
 	ft_putendl_fd("tu arrive jusqu'ici ? ", 2);
 	return (i);
 }
@@ -92,7 +97,7 @@ int		ft_sep(t_tree *tree, int i)
 	pid = fork();
 		if (pid == 0)
 			i = ft_exec(tree);
-		waitpid (-1, &i, WEXITSTATUS(i));
+		wait(NULL);
 	}
 	else
 		i = ft_exec_pipe(tree, i);
