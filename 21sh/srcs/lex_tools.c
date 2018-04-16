@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 08:06:01 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/03/28 12:01:51 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/16 18:22:33 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,9 @@
 
 int			ft_isalphan(int c)
 {
-	if (!ft_isdigit(c) && ft_isop(c) && !ft_issep(c) && c != ' ')
+	if (ft_isop(c) && !ft_issep(c) && c != ' ')
 		return (1);
 	return (0);
-}
-
-int			ft_isnotspace(int c)
-{
-	if (c == ' ' || c == '\t')
-		return (0);
-	return (1);
 }
 
 int			ft_isred(char *str)
@@ -80,7 +73,7 @@ void		ft_newred(char *str, t_lex **cmd, int *i)
 	while (tmp && tmp->next != NULL)
 		tmp = tmp->next;
 	start = *i;
-	while (str[l] != '\n' && str[l] != ' ')
+	while (str[l] != '\0' && str[l] != ' ')
 		l++;
 	if (tmp != NULL)
 		tmp->next = last;
@@ -89,7 +82,7 @@ void		ft_newred(char *str, t_lex **cmd, int *i)
 	if (!ft_isalpha(str[l - 1]))
 	{
 		l++;
-		while (str[l] != '\n' && str[l] != ' ')
+		while (str[l] != '\0' && str[l] != ' ')
 			l++;
 	}
 	last->data = ft_strsub(str, start, (l - start));
@@ -113,7 +106,7 @@ void		ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp)(int c))
 	while (tmp && tmp->next != NULL)
 		tmp = tmp->next;
 	start = *i;
-	while (str[l] != '\n' && ft_cmp(str[l]))
+	while (str[l] != '\0' && ft_cmp(str[l]))
 		l++;
 	if (tmp != NULL)
 		tmp->next = last;

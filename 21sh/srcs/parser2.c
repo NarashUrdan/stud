@@ -6,18 +6,32 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 10:35:37 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/09 12:49:07 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/16 18:39:23 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lexer.h"
 
-void	ft_addleaf(t_tree **tree, t_lex **cmd, int val)
+static void	ft_addleaf2(t_tree **tree, char *op, char *args)
 {
-	t_lex 	*tmp;
+	char	*cd;
+
+	cd = ft_strsub(args, 0, (ft_strlen(args) - ft_strlen(ft_strchr(args, 59))));
+	(*tree)->op = ft_strdup(op);
+	(*tree)->args = ft_strdup(args);
+	(*tree)->cmd = ft_strdup(cd);
+	free(op);
+	free(args);
+	free(cd);
+	(*tree)->right = NULL;
+	(*tree)->left = NULL;
+}
+
+static void	ft_addleaf(t_tree **tree, t_lex **cmd, int val)
+{
+	t_lex	*tmp;
 	char	*args;
 	char	*op;
-	char	*cd;
 
 	args = ft_strnew(0);
 	op = ft_strnew(0);
@@ -36,51 +50,44 @@ void	ft_addleaf(t_tree **tree, t_lex **cmd, int val)
 			op = ft_strjoinfree(op, tmp->data, 1);
 			op = ft_strjoinfree(op, ";", 1);
 		}
-		tmp= tmp->next;
+		tmp = tmp->next;
 	}
-	cd = ft_strsub(args, 0, (ft_strlen(args) - ft_strlen(ft_strchr(args, 59))));
-	(*tree)->op = ft_strdup(op);
-	(*tree)->args = ft_strdup(args);
-	(*tree)->cmd = ft_strdup(cd);
-	free(op);
-	free(args);
-	free(cd);
-	(*tree)->right = NULL;
-	(*tree)->left = NULL;
+	ft_addleaf2(tree, op, args);
 }
 
-int		ft_sauceaupoivre(t_tree **tree, t_lex **cmd, int val)
+static int	ft_sauceaupoivre(t_tree **tree, t_lex **cmd, int val)
 {
-	t_lex *tmp;
-	t_tree *left;
+	t_lex	*tmp;
+	t_tree	*left;
 
 	left = malloc(sizeof(t_tree));
 	tmp = *cmd;
 	while (tmp->value != (val - 1))
 		tmp = tmp->next;
 	while (tmp->prev && ft_strcmp(tmp->type, "sep"))
-	tmp = tmp->prev;
+		tmp = tmp->prev;
 	ft_addleaf(&left, cmd, (tmp->value + 1));
 	while (tmp->prev && tmp->value != (val - 1))
 		tmp = tmp->prev;
 	while (tmp->prev && ft_strcmp(tmp->type, "sep"))
 		tmp = tmp->prev;
 	ft_addleaf(tree, cmd, (tmp->value));
+	(*tree)->op = ft_strjoinfree("BACK", (*tree)->op, 2);
 	(*tree)->left = left;
 	return (tmp->value - 1);
 }
 
-void	ft_addsep(t_tree **tree, t_lex **cmd, int val)
+static void	ft_addsep(t_tree **tree, t_lex **cmd, int val)
 {
-	t_lex *tmp;
-	t_tree *right;
-	t_tree *nplug;
+	t_lex	*tmp;
+	t_tree	*right;
+	t_tree	*nplug;
 
 	nplug = malloc(sizeof(t_tree));
 	right = malloc(sizeof(t_tree));
 	tmp = *cmd;
 	while (tmp->value != val)
-		tmp =  tmp->next;
+		tmp = tmp->next;
 	if (!ft_strcmp(tmp->data, "|"))
 	{
 		ft_addleaf(tree, cmd, val + 1);
@@ -90,7 +97,6 @@ void	ft_addsep(t_tree **tree, t_lex **cmd, int val)
 	else if (!ft_strcmp(tmp->data, "`"))
 	{
 		val = ft_sauceaupoivre(tree, cmd, val);
-		ft_putnbr_fd(val, 2);
 		while ((*tree)->left)
 			(*tree) = (*tree)->left;
 		free(right);
@@ -110,7 +116,7 @@ void	ft_addsep(t_tree **tree, t_lex **cmd, int val)
 	(*tree)->left = nplug;
 }
 
-void	ft_makeabigtree(t_lex **cmd, t_tree **tree, int val)
+void		ft_makeabigtree(t_lex **cmd, t_tree **tree, int val)
 {
 	t_tree	*newplugged;
 	t_lex	*tmp;

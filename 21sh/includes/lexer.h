@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:32:18 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/13 16:11:31 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/16 18:22:03 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,12 @@ void ft_printtree(t_tree *tree);
 ** lexer.c
 */
 int		ft_check(char *str);
-void	ft_init(t_lex *cmd);
 
 /*
 ** lex_tools.c
 */
 void	ft_newred(char *str, t_lex **cmd, int *i);
 int		ft_isalphan(int c);
-int		ft_isnotspace(int c);
 int		ft_isred(char *str);
 int		ft_isop(int c);
 int		ft_issep(int c);

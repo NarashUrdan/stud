@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 03:18:42 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/09 16:23:58 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/16 18:48:41 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		get_next_line(int fd, char **line)
 	{
 		ft_bzero(tmp2, BUFF_SIZE + 1);
 		ret = read(fd, tmp2, BUFF_SIZE);
-	str = ft_strjoinfree(str, tmp2, 1);
+		str = ft_strjoinfree(str, tmp2, 1);
 		if (ret == 0 && str[0] == '\0')
 			return (0);
 		if (ret == 0)
