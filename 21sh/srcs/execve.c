@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 09:55:59 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/16 17:55:44 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/19 13:30:03 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_getpath(char *cmd)
 
 int		ft_exec(t_tree *tree)
 {
-	char		**arv;
+//	char		**arv;
 	char		*path;
 	extern char **environ;
 	int			i;
@@ -71,15 +71,16 @@ int		ft_exec(t_tree *tree)
 		return (2);
 	if ((path = ft_getpath(tree->cmd)) == NULL)
 		return (-1);
-	arv = ft_strsplit(tree->args, 59);
+//	ft_putendl("fsf");
+//	arv = ft_strsplit(tree->args, 59);
 	if (pid == 0)
 	{
-		i = execve(path, arv, environ);
+		i = execve(path, tree->args, environ);
 		if (i == -1)
 			ft_putendl_fd("error exec", 2);
 	}
 	free(path);
-	ft_freedoublearray(arv);
+//	ft_freedoublearray(arv);
 	waitpid(-1, &i, WEXITSTATUS(i));
 	return (i);
 }

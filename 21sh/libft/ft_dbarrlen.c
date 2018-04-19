@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*   ft_dbarrlen.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/10 02:19:40 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/17 15:32:27 by jukuntzm         ###   ########.fr       */
+/*   Created: 2018/04/18 16:06:44 by jukuntzm          #+#    #+#             */
+/*   Updated: 2018/04/18 16:07:06 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnew(size_t size)
+int		ft_dbarrlen(char **dbarr)
 {
-	char	*str;
 	int		i;
 
-	i = (int)size;
-	if (!(str = (char *)malloc(sizeof(char) * size + 1)))
-		return (NULL);
-	while (i >= 0)
-	{
-		str[i] = '\0';
-		i--;
-	}
-	return (str);
+	i = 0;
+	while (dbarr[i] != NULL)
+		i++;
+	return (i);
 }

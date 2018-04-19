@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:32:18 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/16 18:22:03 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/19 17:13:57 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct	s_lex
 typedef	struct	s_tree
 {
 	char			*cmd;
-	char			*args;
+	char			**args;
 	char			*op;
 	struct	s_tree	*left;
 	struct	s_tree	*right;
@@ -51,6 +51,7 @@ int		ft_check(char *str);
 /*
 ** lex_tools.c
 */
+void	ft_checkdata(t_lex **cmd);
 void	ft_newred(char *str, t_lex **cmd, int *i);
 int		ft_isalphan(int c);
 int		ft_isred(char *str);
@@ -62,7 +63,7 @@ void	ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp(int c)));
 ** parser.c
 */
 void	ft_makeabigtree(t_lex **cmd, t_tree **tree, int value);
-
+void	ft_addleaf(t_tree **tree, t_lex **cmd, int val);
 /*
 ** execve.c
 */

@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 00:41:13 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/02/13 01:52:18 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/18 16:08:01 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
-
+int					ft_dbarrlen(char **dbarr);
+char				**ft_dbarr_add(char **array, char *content);
 int					ft_isspace(char s);
 char				**ft_splitwhitespaces(char const *s);
 char				*ft_strjoinfree(char *s1, char *s2, int m);
