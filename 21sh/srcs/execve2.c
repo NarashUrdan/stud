@@ -6,13 +6,13 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/28 12:02:19 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/19 17:58:37 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/20 15:40:32 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lexer.h"
 
-static void	ft_res_fd(void)
+void		ft_res_fd(void)
 {
 	dup2(0, 0);
 	dup2(1, 1);
@@ -48,7 +48,7 @@ static int	ft_exec_pipe(t_tree *tree, int i)
 	return (i);
 }
 
-static char	**ft_new_args(t_tree *tree, int pfd[])
+char		**ft_new_args(t_tree *tree, int pfd[])
 {
 	char	*tmp;
 	char	**tmp2;
@@ -69,44 +69,7 @@ static char	**ft_new_args(t_tree *tree, int pfd[])
 	l = 0;
 	while (tree->args[++l] != NULL)
 		tmp2 = ft_dbarr_add(tmp2, tree->args[l]);
-	//ft_print_words_tables(tree->args);
 	return (tmp2);
-}
-
-static int	ft_exec_left_bq(t_tree *tree, int i, int pfd[])
-{
-	close(pfd[0]);
-	dup2(pfd[1], 1);
-	i = ft_sep(tree->left, i);
-	write(1, "\n", 1);
-	close(pfd[1]);
-	ft_res_fd();
-	return (i);
-}
-
-static int	ft_exec_bq(t_tree *tree, int i)
-{
-	int		pfd[2];
-
-	if ((pipe(pfd) == -1))
-		return (1);
-	if (fork() == 0)
-	{
-		i = ft_exec_left_bq(tree, i, pfd);
-		exit(i);
-	}
-	if (fork() == 0)
-	{
-		close(pfd[1]);
-		dup2(pfd[0], 0);
-		tree->args = ft_new_args(tree, pfd);
-		i = ft_exec(tree);
-		ft_res_fd();
-		exit(i);
-	}
-	wait(NULL);
-	wait(NULL);
-	return (i);
 }
 
 static int	ft_sep2(t_tree *tree, int i)

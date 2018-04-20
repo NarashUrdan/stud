@@ -6,7 +6,7 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 07:31:17 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/19 17:58:40 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/20 17:27:03 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int		lexer2(t_lex **cmd)
 			tmp->type = ft_strdup("red");
 		else if (!tmp->prev ||
 			(!ft_strcmp(tmp->prev->type, "sep") &&
-			 ft_strcmp(tmp->prev->data, "`") && !ft_issep(tmp->data[0])))
+			ft_strcmp(tmp->prev->data, "`") && !ft_issep(tmp->data[0])))
 			tmp->type = ft_strdup("co");
 		else if (tmp->data[0] == '-')
 			tmp->type = ft_strdup("op");
@@ -86,8 +86,7 @@ static t_lex	*ft_lex(char *str, int *l)
 			i++;
 		ft_checkdata(&cmd);
 	}
-	i = lexer2(&cmd);
-	*l = i;
+	*l = lexer2(&cmd);
 	return (cmd);
 }
 
@@ -106,11 +105,11 @@ int				ft_check(char *str)
 	ft_makeabigtree(&cmd, &tree, i);
 	while (cmd)
 	{
-//		ft_putendl("---data---");
-//		ft_putendl(cmd->data);
-//		ft_putendl("---type---");
-//		ft_putendl(cmd->type);
-		free(cmd->type);
+/*		ft_putendl("---data---");
+		ft_putendl(cmd->data);
+		ft_putendl("---type---");
+		ft_putendl(cmd->type);
+*/		free(cmd->type);
 		free(cmd->data);
 		if (cmd->next)
 			cmd = cmd->next;
@@ -118,7 +117,6 @@ int				ft_check(char *str)
 			break ;
 		free(cmd->prev);
 	}
-//	ft_print_words_tables(tree->args);
 	free(cmd);
 //	ft_printtree(tree);
 	ft_sep(tree, 0);

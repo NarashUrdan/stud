@@ -6,48 +6,13 @@
 /*   By: jukuntzm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 08:06:01 by jukuntzm          #+#    #+#             */
-/*   Updated: 2018/04/18 15:32:49 by jukuntzm         ###   ########.fr       */
+/*   Updated: 2018/04/20 15:39:40 by jukuntzm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lexer.h"
 
-int			ft_isalphan(int c)
-{
-	if (ft_isop(c) && !ft_issep(c) && c != ' ')
-		return (1);
-	return (0);
-}
-
-int			ft_isred(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == 60 || str[i] == 62)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int			ft_isop(int c)
-{
-	if (c == 34 || c == 39)
-		return (0);
-	return (1);
-}
-
-int			ft_issep(int c)
-{
-	if (c == 124 || c == 38 || c == 59 || c == 96)
-		return (1);
-	return (0);
-}
-
-void	ft_newdata(t_lex **cmd, char c)
+void			ft_newdata(t_lex **cmd, char c)
 {
 	int		i;
 	t_lex	*last;
@@ -55,7 +20,7 @@ void	ft_newdata(t_lex **cmd, char c)
 	t_lex	*tmp;
 
 	if (!(last = malloc(sizeof(t_lex))))
-			return ;
+		return ;
 	tmp = *cmd;
 	while (tmp && tmp->next != NULL)
 		tmp = tmp->next;
@@ -73,12 +38,12 @@ void	ft_newdata(t_lex **cmd, char c)
 	ft_checkdata(cmd);
 }
 
-void	ft_checkdata(t_lex **cmd)
+void			ft_checkdata(t_lex **cmd)
 {
 	char	c;
 	int		i;
 	t_lex	*tmp;
-	
+
 	tmp = *cmd;
 	i = 0;
 	while (tmp->next)
@@ -92,21 +57,21 @@ void	ft_checkdata(t_lex **cmd)
 		ft_newdata(cmd, c);
 }
 
-static char	*ft_type(int c)
+static t_lex	*ft_newred2(int l, t_lex *tmp, int start, char *str)
 {
-	if (ft_isalphan(c))
-		return ("char");
-	else if (ft_isdigit(c))
-		return ("int");
-	else if (ft_isop(c))
-		return ("op");
-	else if (ft_issep(c))
-		return ("sep");
-	else
+	t_lex	*last;
+
+	if (!(last = malloc(sizeof(t_lex))))
 		return (NULL);
+	last->data = ft_strsub(str, start, (l - start));
+	last->prev = tmp;
+	last->type = ft_strdup("red");
+	last->value = (last->prev == NULL) ? 1 : last->prev->value + 1;
+	last->next = NULL;
+	return (last);
 }
 
-void		ft_newred(char *str, t_lex **cmd, int *i)
+void			ft_newred(char *str, t_lex **cmd, int *i)
 {
 	int		start;
 	t_lex	*last;
@@ -114,9 +79,8 @@ void		ft_newred(char *str, t_lex **cmd, int *i)
 	t_lex	*tmp;
 
 	tmp = *cmd;
-	if (!(last = malloc(sizeof(t_lex))))
-		return ;
 	l = *i + 1;
+	last = NULL;
 	while (tmp && tmp->next != NULL)
 		tmp = tmp->next;
 	start = *i;
@@ -132,15 +96,11 @@ void		ft_newred(char *str, t_lex **cmd, int *i)
 		while (str[l] != '\0' && str[l] != ' ')
 			l++;
 	}
-	last->data = ft_strsub(str, start, (l - start));
-	last->prev = tmp;
-	last->type = ft_strdup("red");
-	last->value = (last->prev == NULL) ? 1 : last->prev->value + 1;
-	last->next = NULL;
+	last = ft_newred2(l, tmp, start, str);
 	*i = l;
 }
 
-void		ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp)(int c))
+void			ft_new(char *str, t_lex **cmd, int *i, int (ft_cmp)(int c))
 {
 	int		start;
 	t_lex	*last;
