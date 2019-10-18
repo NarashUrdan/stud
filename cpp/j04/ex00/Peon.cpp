@@ -13,7 +13,7 @@
 #include "Peon.hpp"
 
 Peon::Peon(std::string name): Victim(name){
-    this->_poly = " has been turned into a cute little sheep !";
+    this->_poly = " has been turned into a pink pony !";
     this->_name = name;
     std::cout << "Zog zog." << std::endl;
 }
@@ -30,8 +30,16 @@ Peon &    Peon::operator=(Peon const & rhs){
     this->_name = rhs._name;
     return *this;
 }
-/* 
-std::ostream &   operator<<(std::ostream & o, const Peon & rhs){
-    o << "I am" << rhs.get_name() << ", and I like otters ! "<< std::endl;
-    return o;
-}*/
+
+void	Peon::getPolymorphed(void) const {
+	std::cout << this->_name << this->_poly << std::endl;
+	return;
+}
+
+std::string Peon::get_name(void) const{
+	return (this->_name);
+}
+std::ostream &	operator<<(std::ostream & o, Peon const &r){
+	o << "I'm " << r.get_name() << " and I like otters!" << std::endl;
+	return (o);
+}

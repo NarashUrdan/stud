@@ -34,8 +34,8 @@ std::string Victim::get_name(void) const {
     return(this->_name);
 }
 
-void Victim::getPolymorphed(void) const{
-    std::cout << this->_name << this->_poly << std::endl;    
+void	Victim::getPolymorphed(void) const{
+    std::cout << this->_name << this->_poly << std::endl;
 }
 
 std::ostream &   operator<<(std::ostream & o, const Victim & rhs){

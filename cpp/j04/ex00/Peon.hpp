@@ -24,11 +24,11 @@ class   Peon : public Victim {
         ~Peon(void);
         Peon &      operator=(Peon const & rhs);
         void        getPolymorphed(void) const;
-
+	std::string get_name(void) const;
     private :
 
         std::string _name;
         std::string _poly;
 };
-
+std::ostream	&operator<<(std::ostream &o, Peon const &r);
 #endif /* ifndef PEON_H */

@@ -25,7 +25,7 @@ class   Victim {
         ~Victim(void);
         Victim &    operator=(Victim const & rhs);
         std::string get_name(void) const;
-        void        getPolymorphed() const;
+        virtual void        getPolymorphed() const;
 
     private :
 
